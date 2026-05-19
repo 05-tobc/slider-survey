@@ -187,12 +187,18 @@
 
     .hero-art .sat {
       position: absolute;
+      top: 50%;
+      left: 50%;
       display: grid;
       place-items: center;
       width: 54px;
       height: 54px;
       border-radius: 50%;
       background: color-mix(in srgb, currentColor 14%, #fff);
+      /* Position via polar offset from center: --r is radius, --a is angle (deg) */
+      --r: 96px;
+      transform: translate(-50%, -50%)
+                 translate(calc(var(--r) * cos(var(--a))), calc(var(--r) * sin(var(--a))));
     }
 
     .hero-art .sat svg {
@@ -201,10 +207,10 @@
       stroke-width: 1.85;
     }
 
-    /* Satellites tucked close to the central globe */
-    .hero-art .sat.top { top: 0;        left: 50%; transform: translateX(-50%); color: var(--rose); }
-    .hero-art .sat.br  { bottom: 24px;  right: 14px; color: var(--green); }
-    .hero-art .sat.bl  { bottom: 24px;  left:  14px; color: var(--blue); }
+    /* Three satellites evenly spaced 120° apart, top first */
+    .hero-art .sat.top { --a: 270deg; color: var(--rose); }
+    .hero-art .sat.br  { --a:  30deg; color: var(--green); }
+    .hero-art .sat.bl  { --a: 150deg; color: var(--blue); }
 
     .hero h1 {
       margin: 0 0 18px;
