@@ -195,8 +195,9 @@
       height: 54px;
       border-radius: 50%;
       background: color-mix(in srgb, currentColor 14%, #fff);
-      /* Position via polar offset from center: --r is radius, --a is angle (deg) */
-      --r: 96px;
+      /* Position via polar offset from center: --r is radius, --a is angle (deg).
+         --r matches the main halo radius so each satellite center sits on its edge. */
+      --r: 70px;
       transform: translate(-50%, -50%)
                  translate(calc(var(--r) * cos(var(--a))), calc(var(--r) * sin(var(--a))));
     }
