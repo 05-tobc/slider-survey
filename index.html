@@ -7,62 +7,42 @@
   <style>
     :root {
       --ink: #10183f;
-      --ink-soft: #2a3160;
-      --muted: #5b6488;
-      --muted-2: #8a90ad;
-      --line: #e3e8f3;
-      --soft-line: #eef1f8;
+      --muted: #59628b;
+      --line: #dfe5f4;
+      --soft-line: #edf1fa;
       --panel: #ffffff;
-      --page: #f7f8fc;
+      --page: #fbfcff;
       --violet: #6638ef;
-      --violet-deep: #4a24df;
-      --violet-soft: #efeafa;
+      --violet-soft: #f0eafa;
       --green: #18a77a;
       --blue: #1d67d9;
       --rose: #ee3d68;
       --orange: #f08622;
-
-      --mood-very-neg: #d92d20;
-      --mood-neg: #e06f00;
-      --mood-neu: #6b7390;
-      --mood-pos: #16845f;
-      --mood-very-pos: #0f9f75;
-
-      --r-sm: 8px;
-      --r-md: 12px;
-      --r-lg: 16px;
-      --r-pill: 999px;
-
-      --shadow-card: 0 10px 30px rgba(23, 34, 80, .06);
-      --shadow-cta: 0 10px 22px rgba(93, 52, 224, .22);
-
-      --content-max: 1180px;
-
+      --shadow: 0 22px 70px rgba(27, 38, 88, .08);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    * { box-sizing: border-box; }
-
-    html, body { height: 100%; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
       color: var(--ink);
       background:
-        radial-gradient(circle at 10% 0%, rgba(102, 56, 239, .045), transparent 32%),
-        radial-gradient(circle at 95% 8%, rgba(24, 167, 122, .035), transparent 30%),
-        var(--page);
+        radial-gradient(circle at 12% 8%, rgba(111, 67, 242, .06), transparent 28%),
+        linear-gradient(180deg, #ffffff 0%, var(--page) 100%);
       min-width: 320px;
-      -webkit-font-smoothing: antialiased;
-      font-feature-settings: "cv11", "ss01";
     }
 
-    button { font: inherit; cursor: pointer; }
+    button {
+      font: inherit;
+    }
 
-    :focus-visible {
-      outline: 2px solid var(--violet);
-      outline-offset: 2px;
-      border-radius: var(--r-sm);
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid #2f80ed;
+      outline-offset: 4px;
     }
 
     .sr-only {
@@ -77,344 +57,303 @@
       border: 0;
     }
 
-    /* Topbar */
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(255, 255, 255, .82);
-      backdrop-filter: saturate(140%) blur(16px);
-      -webkit-backdrop-filter: saturate(140%) blur(16px);
-      border-bottom: 1px solid var(--soft-line);
+    .app {
+      width: min(100%, 1260px);
+      margin: 0 auto;
+      min-height: 100vh;
+      border: 1px solid #edf1fb;
+      background: rgba(255, 255, 255, .78);
+      box-shadow: var(--shadow);
     }
 
-    .topbar-inner {
-      width: min(100%, var(--content-max));
-      margin: 0 auto;
-      height: 68px;
+    .topbar {
+      height: 86px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      padding: 0 24px;
+      gap: 24px;
+      padding: 0 30px;
+      border-bottom: 1px solid #edf1fb;
+      background: rgba(255, 255, 255, .88);
+      backdrop-filter: blur(18px);
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: -0.01em;
+      gap: 14px;
+      font-size: 21px;
+      font-weight: 780;
+      letter-spacing: 0;
     }
 
     .logo {
-      width: 34px;
-      height: 34px;
+      width: 40px;
+      height: 40px;
       display: grid;
       place-items: center;
       color: #fff;
-      border-radius: var(--r-md);
-      background: linear-gradient(135deg, #7a55ff, var(--violet-deep));
-      box-shadow: 0 6px 16px rgba(93, 52, 224, .25);
+      border-radius: 14px;
+      background: linear-gradient(135deg, #7a55ff, #4e28d9);
+      box-shadow: 0 10px 26px rgba(93, 52, 224, .24);
     }
 
     .top-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
     }
 
-    .ghost-btn {
+    .ghost-btn,
+    .step-pill,
+    .nav-btn {
       border: 1px solid var(--line);
       background: #fff;
-      color: var(--ink-soft);
-      border-radius: var(--r-sm);
-      height: 38px;
-      padding: 0 16px;
-      font-size: 14px;
-      font-weight: 600;
-      transition: background-color .15s ease, border-color .15s ease;
+      color: var(--ink);
+      border-radius: 9px;
+      height: 46px;
+      padding: 0 24px;
+      font-weight: 680;
+      box-shadow: 0 6px 18px rgba(31, 45, 93, .04);
     }
-
-    .ghost-btn:hover { background: var(--soft-line); }
 
     .step-pill {
       display: inline-flex;
       align-items: center;
-      height: 38px;
-      padding: 0 14px;
-      border-radius: var(--r-pill);
-      color: var(--violet-deep);
+      justify-content: center;
+      min-width: 94px;
+      color: #4a24df;
       background: var(--violet-soft);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.01em;
+      border-color: transparent;
     }
 
-    /* Progress */
     .progress-track {
-      height: 4px;
-      background: var(--soft-line);
+      height: 6px;
+      margin: 26px 28px 36px;
+      border-radius: 99px;
+      background: #e6ebf6;
       overflow: hidden;
     }
 
     .progress-fill {
-      width: 8.33%; /* step 1 of 12 */
+      width: 21.5%;
       height: 100%;
-      background: linear-gradient(90deg, #7847ef, var(--violet));
-      transition: width .3s ease;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #7847ef, #6638ef);
     }
 
-    /* Main layout */
     main {
-      width: min(100%, var(--content-max));
-      margin: 0 auto;
-      padding: 28px 24px 120px;
+      padding: 0 28px 28px;
     }
 
-    /* Hero */
     .hero {
       display: grid;
-      grid-template-columns: 128px 1fr;
-      gap: 32px;
+      grid-template-columns: 250px 1fr;
+      gap: 58px;
       align-items: center;
-      padding: 28px 32px;
+      min-height: 278px;
+      padding: 42px 62px;
       border: 1px solid var(--line);
-      border-radius: var(--r-lg);
-      background: #fff;
-      box-shadow: var(--shadow-card);
+      border-radius: 9px;
+      background: rgba(255, 255, 255, .9);
+      box-shadow: 0 18px 48px rgba(23, 34, 80, .05);
     }
 
     .hero-art {
-      width: 128px;
-      height: 128px;
+      width: 176px;
+      height: 176px;
       display: grid;
       place-items: center;
+      justify-self: center;
       border-radius: 50%;
       color: var(--violet);
-      background: radial-gradient(circle at 30% 30%, #f5efff, #e8defb);
+      background: linear-gradient(135deg, #f1eafb, #e6def8);
     }
 
-    .hero-art svg { width: 78px; height: 78px; }
-
     .hero h1 {
-      margin: 0 0 10px;
-      font-size: clamp(22px, 2.4vw, 28px);
-      line-height: 1.2;
-      letter-spacing: -0.015em;
-      font-weight: 700;
+      margin: 0 0 18px;
+      font-size: clamp(28px, 3vw, 34px);
+      line-height: 1.16;
+      letter-spacing: 0;
     }
 
     .hero p {
+      max-width: 760px;
       margin: 0;
-      max-width: 70ch;
       color: var(--muted);
-      font-size: 15px;
-      line-height: 1.55;
+      font-size: 18px;
+      line-height: 1.62;
     }
 
     .note {
       display: grid;
-      grid-template-columns: 26px 1fr;
-      gap: 12px;
-      align-items: start;
-      max-width: 70ch;
-      margin-top: 14px;
-      padding: 10px 14px 10px 12px;
-      color: var(--ink-soft);
-      font-size: 14px;
-      line-height: 1.5;
-      background: var(--violet-soft);
-      border-radius: var(--r-md);
+      grid-template-columns: 34px 1fr;
+      gap: 14px;
+      max-width: 760px;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
     }
 
     .note-icon {
-      width: 22px;
-      height: 22px;
-      margin-top: 1px;
+      width: 32px;
+      height: 32px;
       display: grid;
       place-items: center;
       border-radius: 50%;
-      color: #fff;
-      background: var(--violet);
-      font-size: 13px;
-      font-weight: 700;
-      line-height: 1;
+      color: var(--violet);
+      background: var(--violet-soft);
+      font-weight: 800;
     }
 
-    /* Survey card */
     .survey {
-      margin-top: 20px;
+      margin-top: 16px;
       border: 1px solid var(--line);
-      border-radius: var(--r-lg);
+      border-radius: 9px;
       background: var(--panel);
-      box-shadow: var(--shadow-card);
       overflow: hidden;
     }
 
     .survey-intro {
-      padding: 22px 28px 8px;
+      padding: 22px 26px 12px;
     }
 
     .survey-intro h2 {
-      margin: 0 0 6px;
-      font-size: 19px;
-      line-height: 1.3;
-      letter-spacing: -0.01em;
-      font-weight: 700;
+      margin: 0 0 7px;
+      font-size: 25px;
+      line-height: 1.25;
+      letter-spacing: 0;
     }
 
     .survey-intro p {
       margin: 0;
       color: var(--muted);
-      font-size: 14px;
-      line-height: 1.55;
+      font-size: 18px;
+      line-height: 1.5;
     }
 
     .columns-head {
       display: grid;
-      grid-template-columns: 280px 1fr 1fr;
+      grid-template-columns: 315px 1fr 1fr;
       align-items: center;
-      padding: 20px 20px 14px;
-      gap: 8px;
+      padding: 10px 14px 20px;
     }
 
     .scope-title {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 0 10px;
-      border-left: 1px solid var(--soft-line);
+      gap: 18px;
+      justify-content: center;
+      min-height: 66px;
+      border-left: 1px solid transparent;
+    }
+
+    .scope-title + .scope-title {
+      border-left-color: var(--line);
     }
 
     .scope-badge {
-      width: 36px;
-      height: 36px;
+      width: 54px;
+      height: 54px;
       display: grid;
       place-items: center;
       flex: 0 0 auto;
       border-radius: 50%;
     }
 
-    .scope-badge svg { width: 20px; height: 20px; }
-
     .scope-title strong {
       display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--ink);
+      font-size: 18px;
+      margin-bottom: 5px;
     }
 
     .scope-title span {
       color: var(--muted);
-      font-size: 12px;
+      font-size: 15px;
     }
 
     .rows {
-      padding: 0 16px 8px;
+      padding: 0 14px 12px;
     }
 
     .topic-row {
       display: grid;
-      grid-template-columns: 264px 1fr 1fr;
+      grid-template-columns: 315px 1fr 1fr;
       align-items: stretch;
-      min-height: 78px;
-      border: 1px solid var(--soft-line);
-      border-radius: var(--r-md);
+      min-height: 103px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
       background: #fff;
-      transition: background-color .15s ease, border-color .15s ease;
-    }
-
-    .topic-row:hover {
-      background: #fbfbfe;
-      border-color: var(--line);
+      overflow: hidden;
     }
 
     .topic-row + .topic-row {
-      margin-top: 6px;
+      margin-top: -1px;
     }
 
     .topic {
       display: grid;
-      grid-template-columns: 44px 1fr;
-      gap: 14px;
+      grid-template-columns: 62px 1fr;
+      gap: 20px;
       align-items: center;
-      padding: 14px 16px;
+      padding: 17px 16px;
+      font-weight: 730;
     }
 
     .topic-title {
       display: flex;
       align-items: baseline;
-      gap: 8px;
+      gap: 16px;
       min-width: 0;
     }
 
-    .topic-title .num {
+    .topic-title span {
       flex: 0 0 auto;
-      color: var(--muted-2);
-      font-size: 13px;
-      font-weight: 600;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .topic-title strong {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--ink);
-      letter-spacing: -0.005em;
+      font-weight: 760;
     }
 
     .icon-tile {
-      width: 40px;
-      height: 40px;
+      width: 54px;
+      height: 54px;
       display: grid;
       place-items: center;
-      border-radius: var(--r-md);
+      border-radius: 10px;
     }
 
     .icon-tile svg {
-      width: 22px;
-      height: 22px;
-      stroke-width: 2;
+      width: 29px;
+      height: 29px;
+      stroke-width: 2.15;
     }
 
-    /* Slider */
     .slider-cell {
       position: relative;
-      padding: 18px 24px 14px;
-      border-left: 1px solid var(--soft-line);
+      padding: 24px 22px 14px 34px;
+      border-left: 1px solid var(--line);
     }
 
     .slider-cell:focus-within {
-      background: #fafbff;
+      z-index: 4;
+      box-shadow: inset 0 0 0 3px rgba(47, 128, 237, .22);
+      background: #fbfdff;
+    }
+
+    .slider-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 52px;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .slider-main {
+      position: relative;
+      min-width: 0;
     }
 
     .scale {
       position: relative;
-      height: 44px;
-    }
-
-    .track {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 50%;
-      height: 4px;
-      transform: translateY(-50%);
-      border-radius: var(--r-pill);
-      background: #e2e7f3;
-    }
-
-    .track-fill {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      width: 0%;
-      background: var(--fill-color, var(--violet));
-      border-radius: var(--r-pill);
-      transition: left .18s ease, width .18s ease, background-color .18s ease;
+      min-height: 70px;
     }
 
     .ticks {
@@ -422,254 +361,287 @@
       inset: 0;
     }
 
+    .scale::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 33px;
+      height: 3px;
+      border-radius: 99px;
+      background: #dfe5f3;
+    }
+
     .tick {
       position: absolute;
       left: var(--pos);
       top: 0;
-      bottom: 0;
       transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      width: 28px;
-      background: none;
-      border: 0;
-      padding: 0;
-      color: var(--muted-2);
-      font-size: 11px;
-      font-weight: 600;
-      font-variant-numeric: tabular-nums;
-      cursor: pointer;
+      display: grid;
+      justify-items: center;
+      gap: 10px;
+      width: 34px;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 780;
       z-index: 1;
     }
 
-    .tick::before {
+    .tick::after {
       content: "";
       width: 2px;
-      height: 8px;
-      border-radius: var(--r-pill);
-      background: #cdd3e2;
+      height: 10px;
+      border-radius: 99px;
+      background: #d7deee;
     }
 
-    .tick.minor {
-      color: transparent;
+    .tick:first-child::after,
+    .tick:last-child::after {
+      width: 7px;
+      height: 7px;
+      margin-top: 2px;
+      background: #cdd6eb;
+      border-radius: 50%;
     }
 
-    .tick.minor::before {
-      height: 6px;
-      background: #d8dce8;
+    .marker {
+      position: absolute;
+      left: 50%;
+      top: -18px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 2;
+      pointer-events: none;
     }
 
-    .tick:hover { color: var(--ink); }
+    .value {
+      min-width: 36px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      font-size: 15px;
+      font-weight: 780;
+      box-shadow: 0 4px 12px rgba(31, 45, 93, .05);
+    }
 
     .knob {
       position: absolute;
       left: 50%;
-      top: 50%;
-      width: 20px;
-      height: 20px;
-      transform: translate(-50%, -50%);
-      border: 2px solid #fff;
-      border-radius: 50%;
-      background: var(--fill-color, var(--violet));
-      box-shadow: 0 2px 8px rgba(31, 45, 93, .18), 0 0 0 1px rgba(31, 45, 93, .06);
-      z-index: 3;
-      pointer-events: none;
-      transition: left .18s ease, background-color .18s ease, transform .12s ease;
-    }
-
-    .slider-cell:focus-within .knob {
-      transform: translate(-50%, -50%) scale(1.12);
-    }
-
-    .value-chip {
-      position: absolute;
-      left: 50%;
-      top: -22px;
-      transform: translateX(-50%);
-      min-width: 28px;
+      top: 25px;
+      width: 22px;
       height: 22px;
-      padding: 0 8px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      border-radius: var(--r-pill);
-      background: var(--fill-color, var(--violet));
-      color: #fff;
-      font-size: 12px;
-      font-weight: 700;
-      font-variant-numeric: tabular-nums;
+      transform: translateX(-50%);
+      border: 3px solid var(--violet);
+      border-radius: 50%;
+      background: #fff;
+      z-index: 2;
+      box-shadow: 0 0 0 4px rgba(102, 56, 239, .06);
       pointer-events: none;
-      z-index: 4;
-      transition: left .18s ease, background-color .18s ease;
     }
 
-    .scale-labels {
+    .labels {
       display: flex;
       justify-content: space-between;
-      margin-top: 6px;
       color: var(--muted);
-      font-size: 11px;
+      font-size: 12px;
       line-height: 1;
+      margin-top: -4px;
+    }
+
+    .mood {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      background: color-mix(in srgb, currentColor 10%, #fff);
+      box-shadow: 0 10px 24px rgba(31, 45, 93, .08);
+      transition: color .18s ease, background-color .18s ease, box-shadow .18s ease;
+    }
+
+    .mood.is-very-negative {
+      color: #d92d20;
+    }
+
+    .mood.is-negative {
+      color: #e06f00;
+    }
+
+    .mood.is-neutral {
+      color: #68708f;
+    }
+
+    .mood.is-positive {
+      color: #16845f;
+    }
+
+    .mood.is-very-positive {
+      color: #0f9f75;
+    }
+
+    .mood svg {
+      width: 38px;
+      height: 38px;
+    }
+
+    .mood-eyes,
+    .mood-mouth {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     input[type="range"] {
       position: absolute;
       top: 0;
       left: 0;
+      right: 0;
       width: 100%;
-      height: 100%;
-      margin: 0;
+      height: 70px;
       opacity: 0;
       cursor: pointer;
-      z-index: 5;
+      z-index: 3;
     }
 
-    /* Footer (sticky) */
     .footer {
-      position: sticky;
-      bottom: 0;
-      z-index: 8;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      padding: 14px 20px;
-      background: rgba(255, 255, 255, .92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      padding: 18px 0 0;
       border-top: 1px solid var(--soft-line);
+      margin: 0 14px 12px;
     }
 
     .nav-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      height: 44px;
-      min-width: 110px;
-      padding: 0 18px;
-      border: 1px solid var(--line);
-      border-radius: var(--r-sm);
+      gap: 14px;
+      min-width: 126px;
+      color: var(--violet);
+      height: 50px;
       background: #fff;
-      color: var(--ink-soft);
-      font-size: 14px;
-      font-weight: 600;
-      transition: background-color .15s ease, transform .08s ease, box-shadow .15s ease;
     }
-
-    .nav-btn:hover { background: var(--soft-line); }
-    .nav-btn:active { transform: translateY(1px); }
 
     .nav-btn.primary {
-      min-width: 150px;
+      min-width: 178px;
       color: #fff;
       border-color: transparent;
-      background: linear-gradient(135deg, #7a55ff, var(--violet-deep));
-      box-shadow: var(--shadow-cta);
+      background: linear-gradient(135deg, #6d44ef, #5629de);
+      box-shadow: 0 16px 28px rgba(93, 52, 224, .2);
     }
 
-    .nav-btn.primary:hover {
-      background: linear-gradient(135deg, #8a67ff, #5b30e6);
+    svg {
+      display: block;
     }
-
-    svg { display: block; }
 
     .c-violet { color: var(--violet); background: var(--violet-soft); }
-    .c-blue   { color: var(--blue);   background: #e8f0fd; }
-    .c-rose   { color: var(--rose);   background: #fdebf0; }
-    .c-orange { color: var(--orange); background: #fdf0e2; }
-    .c-green  { color: var(--green);  background: #e3f6ee; }
+    .c-blue { color: var(--blue); background: #eaf2ff; }
+    .c-rose { color: var(--rose); background: #fff0f3; }
+    .c-orange { color: var(--orange); background: #fff2e7; }
+    .c-green { color: var(--green); background: #e8f8f2; }
 
-    /* Tablet */
-    @media (max-width: 960px) {
-      .columns-head {
-        grid-template-columns: 1fr 1fr;
-        padding: 16px 16px 8px;
+    @media (max-width: 900px) {
+      .app {
+        border-width: 0;
       }
-      .columns-head > div:first-child { display: none; }
-      .topic-row {
-        grid-template-columns: 1fr;
-        padding: 14px;
-      }
-      .topic { padding: 0 0 6px; border-bottom: 1px dashed var(--soft-line); }
-      .slider-cell {
-        border-left: 0;
-        padding: 18px 6px 8px;
-      }
-      .slider-cell + .slider-cell {
-        border-top: 1px solid var(--soft-line);
-      }
-      .slider-cell::before {
-        content: attr(data-scope);
-        display: block;
-        margin-bottom: 8px;
-        color: var(--muted);
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-      }
-    }
 
-    /* Mobile */
-    @media (max-width: 640px) {
-      .topbar-inner {
+      .topbar {
         height: auto;
-        padding: 12px 16px;
+        padding: 18px;
         flex-wrap: wrap;
-        row-gap: 8px;
       }
-      .top-actions { width: 100%; justify-content: space-between; }
 
-      main { padding: 18px 14px 110px; }
+      .progress-track {
+        margin: 18px 18px 24px;
+      }
+
+      main {
+        padding: 0 14px 20px;
+      }
 
       .hero {
         grid-template-columns: 1fr;
-        gap: 16px;
-        padding: 20px;
+        gap: 20px;
+        padding: 28px 20px;
+        text-align: left;
       }
-      .hero-art { display: none; }
 
-      .survey-intro { padding: 18px 18px 4px; }
-      .survey-intro h2 { font-size: 17px; }
-
-      .rows { padding: 0 10px 6px; }
-      .topic-row + .topic-row { margin-top: 8px; }
-
-      .footer {
-        padding: 12px 14px;
+      .hero-art {
+        justify-self: start;
+        width: 132px;
+        height: 132px;
       }
-      .nav-btn { min-width: 0; flex: 0 0 auto; }
-      .nav-btn.primary { flex: 1 1 auto; min-width: 0; }
+
+      .columns-head,
+      .topic-row {
+        grid-template-columns: 1fr;
+      }
+
+      .columns-head {
+        display: none;
+      }
+
+      .topic-row {
+        min-height: 0;
+      }
+
+      .topic-row + .topic-row {
+        margin-top: 12px;
+      }
+
+      .slider-cell {
+        border-left: 0;
+        border-top: 1px solid var(--soft-line);
+        padding-inline: 24px;
+      }
+
+      .slider-cell::before {
+        content: attr(data-title);
+        display: block;
+        margin-bottom: 10px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 760;
+      }
+
+      .topic {
+        grid-template-columns: 54px 1fr;
+      }
     }
 
     @media (forced-colors: active) {
-      .logo, .hero-art, .scope-badge, .icon-tile,
-      .step-pill, .nav-btn.primary, .value-chip, .knob, .track-fill {
+      .logo,
+      .hero-art,
+      .scope-badge,
+      .icon-tile,
+      .step-pill,
+      .nav-btn.primary {
         forced-color-adjust: none;
         border: 1px solid CanvasText;
       }
-      .track, .tick::before { background: CanvasText; }
-    }
 
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        transition: none !important;
-        animation: none !important;
+      .scale::before,
+      .tick::after {
+        background: CanvasText;
       }
     }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="topbar-inner">
+  <div class="app">
+    <header class="topbar">
       <div class="brand">
         <div class="logo" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 26 26" fill="none">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
             <path d="M3 13h4.1l2.2-5.2 4.4 11.1 2.2-5.9H23" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
@@ -677,80 +649,82 @@
       </div>
       <div class="top-actions">
         <button class="ghost-btn">Save &amp; exit</button>
-        <div class="step-pill" aria-hidden="true">Step 1 of 12</div>
+        <div class="step-pill">1 / 12</div>
       </div>
-    </div>
+    </header>
+
     <div class="sr-only" aria-live="polite">Step 1 of 12</div>
     <div class="progress-track" role="progressbar" aria-label="Survey progress" aria-valuemin="1" aria-valuemax="12" aria-valuenow="1">
       <div class="progress-fill"></div>
     </div>
-  </header>
 
-  <main>
-    <section class="hero">
-      <div class="hero-art" aria-hidden="true">
-        <svg viewBox="0 0 108 108" fill="none">
-          <circle cx="54" cy="34" r="22" stroke="currentColor" stroke-width="3"/>
-          <circle cx="30" cy="72" r="7" stroke="currentColor" stroke-width="3"/>
-          <circle cx="54" cy="78" r="8" stroke="currentColor" stroke-width="3"/>
-          <circle cx="78" cy="72" r="7" stroke="currentColor" stroke-width="3"/>
-          <path d="M18 96v-6c0-7 5-12 12-12M42 100V92c0-7 5-12 12-12s12 5 12 12v8M90 96v-6c0-7-5-12-12-12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div>
-        <h1>Baseline Survey: Socio-Cultural Sustainability</h1>
-        <p>This baseline survey helps us understand how people generally feel about key aspects of socio-cultural sustainability in everyday life.</p>
-        <div class="note">
-          <div class="note-icon" aria-hidden="true">i</div>
-          <div>There are no right or wrong answers. Please respond based on your current feelings and perceptions.</div>
+    <main>
+      <section class="hero">
+        <div class="hero-art" aria-hidden="true">
+          <svg width="108" height="108" viewBox="0 0 108 108" fill="none">
+            <circle cx="54" cy="34" r="26" stroke="currentColor" stroke-width="3"/>
+            <path d="M29 34h50M54 8c-11 14-11 38 0 52M54 8c11 14 11 38 0 52M33 20c13 5 29 5 42 0M33 48c13-5 29-5 42 0" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="72" r="7" stroke="currentColor" stroke-width="3"/>
+            <circle cx="54" cy="78" r="8" stroke="currentColor" stroke-width="3"/>
+            <circle cx="78" cy="72" r="7" stroke="currentColor" stroke-width="3"/>
+            <path d="M18 96v-8c0-8 5-13 12-13M42 100V90c0-8 5-13 12-13s12 5 12 13v10M90 96v-8c0-8-5-13-12-13" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          </svg>
         </div>
-      </div>
-    </section>
-
-    <section class="survey">
-      <div class="survey-intro">
-        <h2 id="survey-question">How do you generally feel about each of the following topics?</h2>
-        <p id="survey-help">For each topic, rate how you feel it affects you personally, and how you think it affects others in your community or society in general.</p>
-      </div>
-
-      <div class="columns-head">
-        <div></div>
-        <div class="scope-title">
-          <div class="scope-badge c-violet" aria-hidden="true">
-            <svg viewBox="0 0 32 32" fill="none">
-              <circle cx="16" cy="10" r="5" stroke="currentColor" stroke-width="2.4"/>
-              <path d="M7 27v-4c0-5 4-8 9-8s9 3 9 8v4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
-            </svg>
+        <div>
+          <h1>Baseline Survey: Socio-Cultural Sustainability</h1>
+          <p>This baseline survey helps us understand how people generally feel about key aspects of socio-cultural sustainability in everyday life.</p>
+          <div class="note">
+            <div class="note-icon">i</div>
+            <div>There are no right or wrong answers. Please respond based on your current feelings and perceptions.</div>
           </div>
-          <div><strong>Own feeling</strong><span>How does this affect you?</span></div>
         </div>
-        <div class="scope-title">
-          <div class="scope-badge c-green" aria-hidden="true">
-            <svg viewBox="0 0 34 34" fill="none">
-              <circle cx="17" cy="10" r="4" stroke="currentColor" stroke-width="2.3"/>
-              <circle cx="8" cy="14" r="3" stroke="currentColor" stroke-width="2.3"/>
-              <circle cx="26" cy="14" r="3" stroke="currentColor" stroke-width="2.3"/>
-              <path d="M10 25v-3c0-4 3-6 7-6s7 2 7 6v3M3 24v-2c0-3 2-5 5-5M31 24v-2c0-3-2-5-5-5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>
-            </svg>
+      </section>
+
+      <section class="survey">
+        <div class="survey-intro">
+          <h2 id="survey-question">How do you generally feel about each of the following topics?</h2>
+          <p id="survey-help">For each topic, rate how you feel it affects you personally, and how you think it affects others in your community or society in general.</p>
+        </div>
+
+        <div class="columns-head">
+          <div></div>
+          <div class="scope-title">
+            <div class="scope-badge c-violet">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <circle cx="16" cy="10" r="5" stroke="currentColor" stroke-width="2.4"/>
+                <path d="M7 27v-4c0-5 4-8 9-8s9 3 9 8v4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div><strong>Own (feeling)</strong><span>How does this affect you?</span></div>
           </div>
-          <div><strong>Others' feeling</strong><span>How do you think this affects others?</span></div>
+          <div class="scope-title">
+            <div class="scope-badge c-green">
+              <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+                <circle cx="17" cy="10" r="4" stroke="currentColor" stroke-width="2.3"/>
+                <circle cx="8" cy="14" r="3" stroke="currentColor" stroke-width="2.3"/>
+                <circle cx="26" cy="14" r="3" stroke="currentColor" stroke-width="2.3"/>
+                <path d="M10 25v-3c0-4 3-6 7-6s7 2 7 6v3M3 24v-2c0-3 2-5 5-5M31 24v-2c0-3-2-5-5-5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div><strong>Others (feeling)</strong><span>How do you think this affects others?</span></div>
+          </div>
         </div>
-      </div>
 
-      <div class="rows" id="rows" aria-labelledby="survey-question" aria-describedby="survey-help"></div>
+        <div class="rows" id="rows" aria-labelledby="survey-question" aria-describedby="survey-help"></div>
 
-      <div class="footer">
-        <button class="nav-btn" aria-label="Back">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6M9 12h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Back
-        </button>
-        <button class="nav-btn primary" aria-label="Next">
-          Next
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6M15 12H3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </div>
-    </section>
-  </main>
+        <div class="footer">
+          <button class="nav-btn" aria-label="Back">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6M9 12h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Back
+          </button>
+          <button class="nav-btn primary" aria-label="Next">
+            Next
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6M15 12H3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
 
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script>
@@ -769,91 +743,84 @@
       ['Belonging and identity', 'circle-user-round', 'c-violet']
     ];
 
-    const ratings = {
-      '-2': { label: 'Very negative', color: 'var(--mood-very-neg)' },
-      '-1': { label: 'Negative',      color: 'var(--mood-neg)' },
-       '0': { label: 'Indifferent',   color: 'var(--mood-neu)' },
-       '1': { label: 'Positive',      color: 'var(--mood-pos)' },
-       '2': { label: 'Very positive', color: 'var(--mood-very-pos)' }
+    const rows = document.querySelector('#rows');
+
+    const moodIcons = {
+      '-2': '<svg viewBox="0 0 48 48" aria-hidden="true"><circle class="mood-eyes" cx="24" cy="24" r="18"/><path class="mood-eyes" d="M16 20h.1M32 20h.1"/><path class="mood-mouth" d="M16 34c3.2-4 12.8-4 16 0"/></svg>',
+      '-1': '<svg viewBox="0 0 48 48" aria-hidden="true"><circle class="mood-eyes" cx="24" cy="24" r="18"/><path class="mood-eyes" d="M16 20h.1M32 20h.1"/><path class="mood-mouth" d="M17 32c3-2.4 11-2.4 14 0"/></svg>',
+      '0': '<svg viewBox="0 0 48 48" aria-hidden="true"><circle class="mood-eyes" cx="24" cy="24" r="18"/><path class="mood-eyes" d="M16 20h.1M32 20h.1"/><path class="mood-mouth" d="M17 31h14"/></svg>',
+      '1': '<svg viewBox="0 0 48 48" aria-hidden="true"><circle class="mood-eyes" cx="24" cy="24" r="18"/><path class="mood-eyes" d="M16 20h.1M32 20h.1"/><path class="mood-mouth" d="M16 30c3.5 4 12.5 4 16 0"/></svg>',
+      '2': '<svg viewBox="0 0 48 48" aria-hidden="true"><circle class="mood-eyes" cx="24" cy="24" r="18"/><path class="mood-eyes" d="M15 19h.1M33 19h.1"/><path class="mood-mouth" d="M15 29c3.2 5.5 14.8 5.5 18 0"/></svg>'
     };
 
-    function slider(scope, name, id) {
+    const ratings = {
+      '-2': { label: 'Very negative', moodClass: 'is-very-negative' },
+      '-1': { label: 'Negative', moodClass: 'is-negative' },
+      '0': { label: 'Indifferent', moodClass: 'is-neutral' },
+      '1': { label: 'Positive', moodClass: 'is-positive' },
+      '2': { label: 'Very positive', moodClass: 'is-very-positive' }
+    };
+
+    function slider(name, id) {
       return `
-        <div class="slider-cell" data-scope="${scope}">
+        <div class="slider-cell" data-title="${name}">
           <label class="sr-only" for="${id}">${name}</label>
-          <div class="scale">
-            <div class="track">
-              <div class="track-fill"></div>
+          <div class="slider-layout">
+            <div class="slider-main">
+              <input id="${id}" type="range" min="-2" max="2" step="1" value="0" aria-describedby="${id}-state">
+              <div class="scale" aria-hidden="true">
+                <div class="marker">
+                  <div class="value">0</div>
+                </div>
+                <div class="knob"></div>
+                <div class="ticks">
+                  ${[-2, -1, 0, 1, 2].map((v, i) => `<div class="tick" style="--pos: ${i * 25}%">${v}</div>`).join('')}
+                </div>
+              </div>
+              <div class="labels"><span>Very negative</span><span>Indifferent</span><span>Very positive</span></div>
             </div>
-            <div class="ticks">
-              ${[-2, -1, 0, 1, 2].map((v, i) => `
-                <button type="button" class="tick ${v === -1 || v === 1 ? 'minor' : ''}" style="--pos: ${i * 25}%" data-value="${v}" aria-label="Set ${name} to ${v}" tabindex="-1">${v}</button>
-              `).join('')}
+            <div class="mood is-neutral" aria-hidden="true">
+              ${moodIcons[0]}
             </div>
-            <div class="knob" aria-hidden="true"></div>
-            <div class="value-chip" aria-hidden="true">0</div>
-            <input id="${id}" type="range" min="-2" max="2" step="1" value="0" aria-describedby="${id}-state">
           </div>
-          <div class="scale-labels"><span>Very negative</span><span>Indifferent</span><span>Very positive</span></div>
           <div class="sr-only" id="${id}-state" aria-live="polite">Current value: 0, Indifferent</div>
         </div>`;
     }
 
-    const rows = document.querySelector('#rows');
     rows.innerHTML = topics.map((topic, index) => `
       <div class="topic-row" role="group" aria-label="${index + 1}. ${topic[0]}">
         <div class="topic">
           <div class="icon-tile ${topic[2]}" aria-hidden="true"><i data-lucide="${topic[1]}"></i></div>
-          <div class="topic-title"><span class="num">${index + 1}.</span><strong>${topic[0]}</strong></div>
+          <div class="topic-title"><span>${index + 1}.</span><strong>${topic[0]}</strong></div>
         </div>
-        ${slider('Own', 'Own feeling, ' + topic[0], `own-${index + 1}`)}
-        ${slider('Others', "Others' feeling, " + topic[0], `others-${index + 1}`)}
+        ${slider('Own feeling, ' + topic[0], `own-${index + 1}`)}
+        ${slider('Others feeling, ' + topic[0], `others-${index + 1}`)}
       </div>
     `).join('');
 
-    if (window.lucide) lucide.createIcons();
+    if (window.lucide) {
+      lucide.createIcons();
+    }
 
     document.querySelectorAll('.slider-cell').forEach(cell => {
-      const input  = cell.querySelector('input');
-      const chip   = cell.querySelector('.value-chip');
-      const knob   = cell.querySelector('.knob');
-      const fill   = cell.querySelector('.track-fill');
-      const state  = cell.querySelector('[aria-live]');
-
+      const input = cell.querySelector('input');
+      const value = cell.querySelector('.value');
+      const mood = cell.querySelector('.mood');
+      const marker = cell.querySelector('.marker');
+      const knob = cell.querySelector('.knob');
+      const state = cell.querySelector('[aria-live]');
       const update = () => {
-        const v = Number(input.value);
-        const pct = ((v + 2) / 4) * 100;
+        const pct = ((Number(input.value) + 2) / 4) * 100;
         const rating = ratings[input.value];
-
-        cell.style.setProperty('--fill-color', rating.color);
-
-        chip.textContent = (v > 0 ? '+' : '') + v;
-        chip.style.left = pct + '%';
+        value.textContent = input.value;
+        mood.innerHTML = moodIcons[input.value];
+        mood.className = `mood ${rating.moodClass}`;
+        marker.style.left = pct + '%';
         knob.style.left = pct + '%';
-
-        // Fill from center (50%) outward
-        if (v >= 0) {
-          fill.style.left = '50%';
-          fill.style.width = (pct - 50) + '%';
-        } else {
-          fill.style.left = pct + '%';
-          fill.style.width = (50 - pct) + '%';
-        }
-
-        input.setAttribute('aria-valuetext', `${rating.label} (${v})`);
-        state.textContent = `Current value: ${v}, ${rating.label}`;
+        input.setAttribute('aria-valuetext', `${rating.label} (${input.value})`);
+        state.textContent = `Current value: ${input.value}, ${rating.label}`;
       };
-
       input.addEventListener('input', update);
-
-      cell.querySelectorAll('.tick').forEach(tick => {
-        tick.addEventListener('click', () => {
-          input.value = tick.dataset.value;
-          input.dispatchEvent(new Event('input', { bubbles: true }));
-          input.focus();
-        });
-      });
-
       update();
     });
   </script>
