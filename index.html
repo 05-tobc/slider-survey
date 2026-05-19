@@ -163,33 +163,44 @@
       position: relative;
       width: 176px;
       height: 176px;
+      display: grid;
+      place-items: center;
       justify-self: center;
       border-radius: 50%;
       background: linear-gradient(135deg, #f1eafb, #e6def8);
     }
 
-    .hero-art .ic {
+    .hero-art .main {
+      color: var(--violet);
+    }
+
+    .hero-art .main svg {
+      width: 88px;
+      height: 88px;
+      stroke-width: 1.5;
+    }
+
+    .hero-art .sat {
       position: absolute;
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       display: grid;
       place-items: center;
       border-radius: 50%;
       background: #fff;
-      box-shadow: 0 4px 12px rgba(31, 45, 93, .10);
+      box-shadow: 0 4px 12px rgba(31, 45, 93, .12);
     }
 
-    .hero-art .ic svg {
-      width: 28px;
-      height: 28px;
-      stroke-width: 1.8;
+    .hero-art .sat svg {
+      width: 24px;
+      height: 24px;
+      stroke-width: 1.9;
     }
 
-    /* Diamond: N, E, S, W */
-    .hero-art .ic.n { top: 6px;    left: 50%; transform: translateX(-50%); color: var(--blue); }
-    .hero-art .ic.e { top: 50%;    right: 6px; transform: translateY(-50%); color: var(--rose); }
-    .hero-art .ic.s { bottom: 6px; left: 50%; transform: translateX(-50%); color: var(--green); }
-    .hero-art .ic.w { top: 50%;    left: 6px; transform: translateY(-50%); color: var(--violet); }
+    /* Satellites at 12, 4, 8 o'clock positions */
+    .hero-art .sat.top    { top: -6px;  left: 50%; transform: translateX(-50%); color: var(--rose); }
+    .hero-art .sat.br     { bottom: 6px; right: -6px; color: var(--green); }
+    .hero-art .sat.bl     { bottom: 6px; left:  -6px; color: var(--blue); }
 
     .hero h1 {
       margin: 0 0 18px;
@@ -700,10 +711,10 @@
     <main>
       <section class="hero">
         <div class="hero-art" aria-hidden="true">
-          <div class="ic n"><i data-lucide="globe"></i></div>
-          <div class="ic e"><i data-lucide="heart-handshake"></i></div>
-          <div class="ic s"><i data-lucide="sprout"></i></div>
-          <div class="ic w"><i data-lucide="users-round"></i></div>
+          <div class="main"><i data-lucide="globe"></i></div>
+          <div class="sat top"><i data-lucide="heart-handshake"></i></div>
+          <div class="sat br"><i data-lucide="sprout"></i></div>
+          <div class="sat bl"><i data-lucide="users-round"></i></div>
         </div>
         <div>
           <h1>Baseline Survey: Socio-Cultural Sustainability</h1>
