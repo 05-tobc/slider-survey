@@ -486,8 +486,9 @@
     }
 
     .mood svg {
-      width: 38px;
-      height: 38px;
+      width: 32px;
+      height: 32px;
+      stroke-width: 2;
     }
 
     .mood-eyes,
@@ -745,20 +746,12 @@
 
     const rows = document.querySelector('#rows');
 
-    const moodIcons = {
-      '-2': '<svg viewBox="0 0 48 48" aria-hidden="true"><circle class="mood-eyes" cx="24" cy="24" r="18"/><path class="mood-eyes" d="M16 20h.1M32 20h.1"/><path class="mood-mouth" d="M16 34c3.2-4 12.8-4 16 0"/></svg>',
-      '-1': '<svg viewBox="0 0 48 48" aria-hidden="true"><circle class="mood-eyes" cx="24" cy="24" r="18"/><path class="mood-eyes" d="M16 20h.1M32 20h.1"/><path class="mood-mouth" d="M17 32c3-2.4 11-2.4 14 0"/></svg>',
-      '0': '<svg viewBox="0 0 48 48" aria-hidden="true"><circle class="mood-eyes" cx="24" cy="24" r="18"/><path class="mood-eyes" d="M16 20h.1M32 20h.1"/><path class="mood-mouth" d="M17 31h14"/></svg>',
-      '1': '<svg viewBox="0 0 48 48" aria-hidden="true"><circle class="mood-eyes" cx="24" cy="24" r="18"/><path class="mood-eyes" d="M16 20h.1M32 20h.1"/><path class="mood-mouth" d="M16 30c3.5 4 12.5 4 16 0"/></svg>',
-      '2': '<svg viewBox="0 0 48 48" aria-hidden="true"><circle class="mood-eyes" cx="24" cy="24" r="18"/><path class="mood-eyes" d="M15 19h.1M33 19h.1"/><path class="mood-mouth" d="M15 29c3.2 5.5 14.8 5.5 18 0"/></svg>'
-    };
-
     const ratings = {
-      '-2': { label: 'Very negative', moodClass: 'is-very-negative' },
-      '-1': { label: 'Negative', moodClass: 'is-negative' },
-      '0': { label: 'Indifferent', moodClass: 'is-neutral' },
-      '1': { label: 'Positive', moodClass: 'is-positive' },
-      '2': { label: 'Very positive', moodClass: 'is-very-positive' }
+      '-2': { label: 'Very negative', moodClass: 'is-very-negative', icon: 'angry' },
+      '-1': { label: 'Negative',      moodClass: 'is-negative',      icon: 'frown' },
+       '0': { label: 'Indifferent',   moodClass: 'is-neutral',       icon: 'meh' },
+       '1': { label: 'Positive',      moodClass: 'is-positive',      icon: 'smile' },
+       '2': { label: 'Very positive', moodClass: 'is-very-positive', icon: 'laugh' }
     };
 
     function slider(name, id) {
@@ -780,7 +773,7 @@
               <div class="labels"><span>Very negative</span><span>Indifferent</span><span>Very positive</span></div>
             </div>
             <div class="mood is-neutral" aria-hidden="true">
-              ${moodIcons[0]}
+              <i data-lucide="meh"></i>
             </div>
           </div>
           <div class="sr-only" id="${id}-state" aria-live="polite">Current value: 0, Indifferent</div>
@@ -813,7 +806,8 @@
         const pct = ((Number(input.value) + 2) / 4) * 100;
         const rating = ratings[input.value];
         value.textContent = input.value;
-        mood.innerHTML = moodIcons[input.value];
+        mood.innerHTML = `<i data-lucide="${rating.icon}"></i>`;
+        if (window.lucide) lucide.createIcons();
         mood.className = `mood ${rating.moodClass}`;
         marker.style.left = pct + '%';
         knob.style.left = pct + '%';
