@@ -161,8 +161,8 @@
 
     .hero-art {
       position: relative;
-      width: 230px;
-      height: 230px;
+      width: 290px;
+      height: 290px;
       display: grid;
       place-items: center;
       justify-self: center;
@@ -172,16 +172,16 @@
       position: relative;
       display: grid;
       place-items: center;
-      width: 140px;
-      height: 140px;
+      width: 180px;
+      height: 180px;
       border-radius: 50%;
       color: var(--violet);
       background: color-mix(in srgb, var(--violet) 12%, #fff);
     }
 
     .hero-art .main svg {
-      width: 84px;
-      height: 84px;
+      width: 108px;
+      height: 108px;
       stroke-width: 1.5;
     }
 
@@ -191,20 +191,20 @@
       left: 50%;
       display: grid;
       place-items: center;
-      width: 54px;
-      height: 54px;
+      width: 68px;
+      height: 68px;
       border-radius: 50%;
       background: color-mix(in srgb, currentColor 14%, #fff);
       /* Position via polar offset from center: --r is radius, --a is angle (deg).
          --r matches the main halo radius so each satellite center sits on its edge. */
-      --r: 70px;
+      --r: 90px;
       transform: translate(-50%, -50%)
                  translate(calc(var(--r) * cos(var(--a))), calc(var(--r) * sin(var(--a))));
     }
 
     .hero-art .sat svg {
-      width: 30px;
-      height: 30px;
+      width: 38px;
+      height: 38px;
       stroke-width: 1.85;
     }
 
