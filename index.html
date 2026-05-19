@@ -163,48 +163,33 @@
       position: relative;
       width: 176px;
       height: 176px;
-      display: grid;
-      place-items: center;
       justify-self: center;
       border-radius: 50%;
-      color: var(--violet);
       background: linear-gradient(135deg, #f1eafb, #e6def8);
     }
 
-    .hero-art > .hero-main svg {
-      width: 84px;
-      height: 84px;
-      stroke-width: 1.6;
-    }
-
-    .hero-art .hero-sat {
+    .hero-art .ic {
       position: absolute;
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
       display: grid;
       place-items: center;
       border-radius: 50%;
       background: #fff;
-      box-shadow: 0 6px 16px rgba(31, 45, 93, .12);
+      box-shadow: 0 4px 12px rgba(31, 45, 93, .10);
     }
 
-    .hero-art .hero-sat svg {
-      width: 26px;
-      height: 26px;
+    .hero-art .ic svg {
+      width: 28px;
+      height: 28px;
       stroke-width: 1.8;
     }
 
-    .hero-art .hero-sat.top-right {
-      top: 4px;
-      right: -4px;
-      color: var(--rose);
-    }
-
-    .hero-art .hero-sat.bottom-left {
-      bottom: 4px;
-      left: -4px;
-      color: var(--green);
-    }
+    /* Diamond: N, E, S, W */
+    .hero-art .ic.n { top: 6px;    left: 50%; transform: translateX(-50%); color: var(--blue); }
+    .hero-art .ic.e { top: 50%;    right: 6px; transform: translateY(-50%); color: var(--rose); }
+    .hero-art .ic.s { bottom: 6px; left: 50%; transform: translateX(-50%); color: var(--green); }
+    .hero-art .ic.w { top: 50%;    left: 6px; transform: translateY(-50%); color: var(--violet); }
 
     .hero h1 {
       margin: 0 0 18px;
@@ -715,9 +700,10 @@
     <main>
       <section class="hero">
         <div class="hero-art" aria-hidden="true">
-          <div class="hero-main"><i data-lucide="users-round"></i></div>
-          <div class="hero-sat top-right"><i data-lucide="heart-handshake"></i></div>
-          <div class="hero-sat bottom-left"><i data-lucide="sprout"></i></div>
+          <div class="ic n"><i data-lucide="globe"></i></div>
+          <div class="ic e"><i data-lucide="heart-handshake"></i></div>
+          <div class="ic s"><i data-lucide="sprout"></i></div>
+          <div class="ic w"><i data-lucide="users-round"></i></div>
         </div>
         <div>
           <h1>Baseline Survey: Socio-Cultural Sustainability</h1>
