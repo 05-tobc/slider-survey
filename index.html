@@ -331,11 +331,11 @@
       position: relative;
       padding: 24px 22px 14px 34px;
       border-left: 1px solid var(--line);
+      --thumb-size: 22px;
     }
 
     .slider-cell:focus-within {
       z-index: 4;
-      box-shadow: inset 0 0 0 3px rgba(47, 128, 237, .22);
       background: #fbfdff;
     }
 
@@ -351,97 +351,126 @@
       min-width: 0;
     }
 
-    .scale {
-      position: relative;
-      min-height: 70px;
-    }
-
-    .ticks {
+    /* Bubble that tracks the thumb. Positioned via --pct (0..1).
+       Formula matches browser thumb-center math:
+         left = pct * (track_width - thumb) + thumb/2 */
+    .value-bubble {
       position: absolute;
-      inset: 0;
+      bottom: calc(100% - 4px);
+      left: calc(var(--pct, 0.5) * (100% - var(--thumb-size)) + var(--thumb-size) / 2);
+      transform: translateX(-50%);
+      min-width: 28px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--violet);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      text-align: center;
+      pointer-events: none;
+      white-space: nowrap;
+      box-shadow: 0 4px 10px rgba(102, 56, 239, .25);
     }
 
-    .scale::before {
+    .value-bubble::after {
       content: "";
       position: absolute;
-      left: 0;
-      right: 0;
-      top: 33px;
-      height: 3px;
-      border-radius: 99px;
+      left: 50%;
+      top: 100%;
+      transform: translateX(-50%);
+      border: 4px solid transparent;
+      border-top-color: var(--violet);
+    }
+
+    /* Native range input, styled */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: var(--thumb-size);
+      margin: 0;
+      background: transparent;
+      cursor: pointer;
+      accent-color: var(--violet);
+    }
+
+    input[type="range"]:focus { outline: none; }
+
+    /* Track */
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 4px;
+      border-radius: 999px;
       background: #dfe5f3;
+    }
+    input[type="range"]::-moz-range-track {
+      height: 4px;
+      border-radius: 999px;
+      background: #dfe5f3;
+    }
+
+    /* Thumb */
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: var(--thumb-size);
+      height: var(--thumb-size);
+      margin-top: calc((4px - var(--thumb-size)) / 2);
+      border: 3px solid var(--violet);
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(102, 56, 239, .06);
+      cursor: grab;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: var(--thumb-size);
+      height: var(--thumb-size);
+      border: 3px solid var(--violet);
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(102, 56, 239, .06);
+      cursor: grab;
+    }
+
+    input[type="range"]:focus-visible::-webkit-slider-thumb {
+      outline: 3px solid rgba(47, 128, 237, .35);
+      outline-offset: 2px;
+    }
+    input[type="range"]:focus-visible::-moz-range-thumb {
+      outline: 3px solid rgba(47, 128, 237, .35);
+      outline-offset: 2px;
+    }
+
+    /* Tick row sits below the slider, in the same coordinate space.
+       Each tick uses the same thumb-center formula so labels line up exactly. */
+    .ticks {
+      position: relative;
+      height: 22px;
+      margin-top: 4px;
     }
 
     .tick {
       position: absolute;
-      left: var(--pos);
       top: 0;
-      transform: translateX(-50%);
-      display: grid;
-      justify-items: center;
-      gap: 10px;
-      width: 34px;
-      color: var(--ink);
-      font-size: 15px;
-      font-weight: 780;
-      z-index: 1;
-    }
-
-    .tick::after {
-      content: "";
-      width: 2px;
-      height: 10px;
-      border-radius: 99px;
-      background: #d7deee;
-    }
-
-    .tick:first-child::after,
-    .tick:last-child::after {
-      width: 7px;
-      height: 7px;
-      margin-top: 2px;
-      background: #cdd6eb;
-      border-radius: 50%;
-    }
-
-    .marker {
-      position: absolute;
-      left: 50%;
-      top: -18px;
+      left: calc(var(--pct) * (100% - var(--thumb-size)) + var(--thumb-size) / 2);
       transform: translateX(-50%);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 6px;
-      z-index: 2;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
       pointer-events: none;
     }
 
-    .value {
-      min-width: 36px;
-      height: 30px;
-      display: grid;
-      place-items: center;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: #fff;
-      font-size: 15px;
-      font-weight: 780;
-      box-shadow: 0 4px 12px rgba(31, 45, 93, .05);
-    }
-
-    .knob {
-      position: absolute;
-      left: 50%;
-      top: 25px;
-      width: 22px;
-      height: 22px;
-      transform: translateX(-50%);
-      border: 3px solid var(--violet);
-      border-radius: 50%;
-      background: #fff;
-      z-index: 2;
-      box-shadow: 0 0 0 4px rgba(102, 56, 239, .06);
-      pointer-events: none;
+    .tick::before {
+      content: "";
+      width: 2px;
+      height: 6px;
+      border-radius: 99px;
+      background: #cdd6eb;
     }
 
     .labels {
@@ -450,7 +479,7 @@
       color: var(--muted);
       font-size: 12px;
       line-height: 1;
-      margin-top: -4px;
+      margin-top: 8px;
     }
 
     .mood {
@@ -498,18 +527,6 @@
       stroke-width: 2.5;
       stroke-linecap: round;
       stroke-linejoin: round;
-    }
-
-    input[type="range"] {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      width: 100%;
-      height: 70px;
-      opacity: 0;
-      cursor: pointer;
-      z-index: 3;
     }
 
     .footer {
@@ -756,19 +773,14 @@
 
     function slider(name, id) {
       return `
-        <div class="slider-cell" data-title="${name}">
+        <div class="slider-cell" data-title="${name}" style="--pct: 0.5">
           <label class="sr-only" for="${id}">${name}</label>
           <div class="slider-layout">
             <div class="slider-main">
-              <input id="${id}" type="range" min="-2" max="2" step="1" value="0" aria-describedby="${id}-state">
-              <div class="scale" aria-hidden="true">
-                <div class="marker">
-                  <div class="value">0</div>
-                </div>
-                <div class="knob"></div>
-                <div class="ticks">
-                  ${[-2, -1, 0, 1, 2].map((v, i) => `<div class="tick" style="--pos: ${i * 25}%">${v}</div>`).join('')}
-                </div>
+              <div class="value-bubble" aria-hidden="true">0</div>
+              <input id="${id}" type="range" min="-2" max="2" step="1" value="0" list="${id}-marks" aria-describedby="${id}-state">
+              <div class="ticks" aria-hidden="true">
+                ${[-2, -1, 0, 1, 2].map((v, i) => `<div class="tick" style="--pct: ${i / 4}">${v}</div>`).join('')}
               </div>
               <div class="labels"><span>Very negative</span><span>Indifferent</span><span>Very positive</span></div>
             </div>
@@ -796,21 +808,19 @@
     }
 
     document.querySelectorAll('.slider-cell').forEach(cell => {
-      const input = cell.querySelector('input');
-      const value = cell.querySelector('.value');
-      const mood = cell.querySelector('.mood');
-      const marker = cell.querySelector('.marker');
-      const knob = cell.querySelector('.knob');
-      const state = cell.querySelector('[aria-live]');
+      const input  = cell.querySelector('input');
+      const bubble = cell.querySelector('.value-bubble');
+      const mood   = cell.querySelector('.mood');
+      const state  = cell.querySelector('[aria-live]');
       const update = () => {
-        const pct = ((Number(input.value) + 2) / 4) * 100;
+        const v = Number(input.value);
+        const pct = (v + 2) / 4; // 0..1
         const rating = ratings[input.value];
-        value.textContent = input.value;
+        cell.style.setProperty('--pct', pct);
+        bubble.textContent = input.value;
         mood.innerHTML = `<i data-lucide="${rating.icon}"></i>`;
         if (window.lucide) lucide.createIcons();
         mood.className = `mood ${rating.moodClass}`;
-        marker.style.left = pct + '%';
-        knob.style.left = pct + '%';
         input.setAttribute('aria-valuetext', `${rating.label} (${input.value})`);
         state.textContent = `Current value: ${input.value}, ${rating.label}`;
       };
