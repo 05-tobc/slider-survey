@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+
+# Env / secrets
+.env
+.env.*
+
+# Node (in case anything is ever added)
+node_modules/
+
+# Local-only screenshots
+.screenshots/
