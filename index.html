@@ -610,6 +610,178 @@
     .c-orange { color: var(--orange); background: #fff2e7; }
     .c-green { color: var(--green); background: #e8f8f2; }
 
+    /* Comparison section */
+    .comparison {
+      margin-top: 16px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+
+    .comparison-intro {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 22px 26px 16px;
+    }
+
+    .comparison-intro h2 {
+      margin: 0 0 7px;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .comparison-intro p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.5;
+      max-width: 620px;
+    }
+
+    .reveal-btn {
+      flex: 0 0 auto;
+      border: 1px solid transparent;
+      border-radius: 9px;
+      height: 46px;
+      padding: 0 22px;
+      color: #fff;
+      font-weight: 680;
+      background: linear-gradient(135deg, #6d44ef, #5629de);
+      box-shadow: 0 12px 24px rgba(93, 52, 224, .18);
+      cursor: pointer;
+    }
+
+    .comparison-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      padding: 0 26px 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend-swatch {
+      width: 14px;
+      height: 10px;
+      border-radius: 3px;
+    }
+    .legend-swatch.s--2 { background: #e8635a; }
+    .legend-swatch.s--1 { background: #f0a35a; }
+    .legend-swatch.s-0  { background: #b8c0d6; }
+    .legend-swatch.s-1  { background: #5fc59c; }
+    .legend-swatch.s-2  { background: #1aa676; }
+
+    .comparison-rows {
+      padding: 0 14px 14px;
+    }
+
+    .compare-row {
+      display: grid;
+      grid-template-columns: 315px 1fr 1fr;
+      align-items: stretch;
+      min-height: 58px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .compare-row + .compare-row {
+      margin-top: -1px;
+    }
+
+    .compare-row .topic {
+      padding: 10px 16px;
+    }
+
+    .compare-row .icon-tile {
+      width: 40px;
+      height: 40px;
+    }
+
+    .compare-row .icon-tile svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .compare-row .topic-title strong {
+      font-size: 15px;
+    }
+
+    .chart-cell {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 10px 22px 10px 22px;
+      border-left: 1px solid var(--line);
+    }
+
+    .stacked-bar {
+      position: relative;
+      width: 100%;
+      height: 16px;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      background: #f1f3fa;
+    }
+
+    .bar-seg {
+      height: 100%;
+      transition: width .35s ease;
+    }
+    .bar-seg.s--2 { background: #e8635a; }
+    .bar-seg.s--1 { background: #f0a35a; }
+    .bar-seg.s-0  { background: #b8c0d6; }
+    .bar-seg.s-1  { background: #5fc59c; }
+    .bar-seg.s-2  { background: #1aa676; }
+
+    .chart-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .own-marker {
+      position: absolute;
+      top: calc(100% + 2px);
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 7px solid var(--ink);
+      pointer-events: none;
+    }
+
+    .own-marker::after {
+      content: attr(data-label);
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .bar-seg[data-pct]:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+    }
+
+    .comparison[hidden] { display: none; }
+
     @media (max-width: 900px) {
       .app {
         border-width: 0;
@@ -643,8 +815,38 @@
       }
 
       .columns-head,
-      .topic-row {
+      .topic-row,
+      .compare-row {
         grid-template-columns: 1fr;
+      }
+
+      .compare-row + .compare-row {
+        margin-top: 8px;
+      }
+
+      .chart-cell {
+        border-left: 0;
+        border-top: 1px solid var(--soft-line);
+      }
+
+      .chart-cell::before {
+        content: attr(data-scope);
+        position: absolute;
+        top: 8px;
+        left: 22px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+      }
+
+      .chart-cell {
+        padding-top: 28px;
+      }
+
+      .comparison-intro {
+        flex-direction: column;
       }
 
       .columns-head {
@@ -780,6 +982,26 @@
           </button>
         </div>
       </section>
+
+      <section class="comparison" aria-labelledby="comparison-heading">
+        <div class="comparison-intro">
+          <div>
+            <h2 id="comparison-heading">How your answers compare</h2>
+            <p>See how your responses line up with the wider population. Each bar shows the share of respondents at each rating; the marker below shows your answer.</p>
+          </div>
+          <button type="button" class="reveal-btn" id="reveal-comparison" aria-expanded="false" aria-controls="comparison-body">Reveal comparison</button>
+        </div>
+        <div id="comparison-body" hidden>
+          <div class="comparison-legend" aria-hidden="true">
+            <span class="legend-item"><span class="legend-swatch s--2"></span>Very negative</span>
+            <span class="legend-item"><span class="legend-swatch s--1"></span>Negative</span>
+            <span class="legend-item"><span class="legend-swatch s-0"></span>Indifferent</span>
+            <span class="legend-item"><span class="legend-swatch s-1"></span>Positive</span>
+            <span class="legend-item"><span class="legend-swatch s-2"></span>Very positive</span>
+          </div>
+          <div class="comparison-rows" id="comparison-rows"></div>
+        </div>
+      </section>
     </main>
   </div>
 
@@ -865,6 +1087,98 @@
       };
       input.addEventListener('input', update);
       update();
+    });
+
+    /* ---- Comparison section ---- */
+    // Fictional population distributions: [%-2, %-1, %0, %1, %2] per topic, per scope.
+    // Each array sums to 100. Replace with real survey data when available.
+    const populationData = [
+      { own: [ 6, 14, 28, 36, 16], others: [10, 22, 32, 26, 10] }, // Trust
+      { own: [ 8, 18, 30, 30, 14], others: [12, 24, 30, 24, 10] }, // Security
+      { own: [ 5, 12, 26, 38, 19], others: [ 8, 18, 34, 28, 12] }, // Self-esteem
+      { own: [ 4, 10, 24, 40, 22], others: [ 9, 20, 30, 28, 13] }, // Social support
+      { own: [ 3,  9, 22, 42, 24], others: [ 7, 17, 28, 32, 16] }, // Empathy
+      { own: [ 7, 16, 30, 32, 15], others: [11, 22, 32, 24, 11] }, // Physical needs
+      { own: [ 5, 13, 24, 38, 20], others: [10, 20, 30, 28, 12] }, // Physical Health
+      { own: [10, 20, 28, 28, 14], others: [14, 26, 30, 22,  8] }, // Mental Health
+      { own: [ 6, 14, 30, 34, 16], others: [ 9, 20, 34, 26, 11] }, // Meaning and Coherence
+      { own: [ 8, 18, 30, 30, 14], others: [12, 22, 32, 24, 10] }, // Participation
+      { own: [ 9, 19, 28, 30, 14], others: [13, 24, 30, 23, 10] }, // Justice
+      { own: [ 5, 13, 28, 36, 18], others: [ 9, 20, 32, 28, 11] }, // Belonging
+    ];
+
+    const ratingKeys = ['-2', '-1', '0', '1', '2'];
+    const ratingLabels = ['Very negative', 'Negative', 'Indifferent', 'Positive', 'Very positive'];
+
+    function stackedBar(dist, ownValue) {
+      // Marker x = center of the segment for the user's value, in % of bar width.
+      const idx = Number(ownValue) + 2;
+      let cumulative = 0;
+      for (let i = 0; i < idx; i++) cumulative += dist[i];
+      const markerPct = cumulative + dist[idx] / 2;
+      const segs = dist.map((p, i) => {
+        const label = ratingLabels[i];
+        return `<div class="bar-seg s-${i - 2}" style="width:${p}%" title="${label}: ${p}%"></div>`;
+      }).join('');
+      return `
+        <div class="chart-wrap">
+          <div class="stacked-bar" role="img" aria-label="Population distribution">${segs}</div>
+          <div class="own-marker" style="left:${markerPct}%" data-label="you"></div>
+        </div>`;
+    }
+
+    const compareRows = document.querySelector('#comparison-rows');
+    compareRows.innerHTML = topics.map((topic, index) => {
+      const ownVal = document.querySelector(`#own-${index + 1}`).value;
+      const othersVal = document.querySelector(`#others-${index + 1}`).value;
+      const data = populationData[index];
+      return `
+        <div class="compare-row" role="group" aria-label="${index + 1}. ${topic[0]} comparison">
+          <div class="topic">
+            <div class="icon-tile ${topic[2]}" aria-hidden="true"><i data-lucide="${topic[1]}"></i></div>
+            <div class="topic-title"><span>${index + 1}.</span><strong>${topic[0]}</strong></div>
+          </div>
+          <div class="chart-cell" data-scope="Own" data-index="${index}" data-scope-key="own">${stackedBar(data.own, ownVal)}</div>
+          <div class="chart-cell" data-scope="Others" data-index="${index}" data-scope-key="others">${stackedBar(data.others, othersVal)}</div>
+        </div>`;
+    }).join('');
+
+    if (window.lucide) lucide.createIcons();
+
+    // Keep markers in sync as the user adjusts sliders.
+    function refreshMarkers() {
+      document.querySelectorAll('.chart-cell').forEach(cell => {
+        const idx = Number(cell.dataset.index);
+        const scope = cell.dataset.scopeKey;
+        const input = document.querySelector(`#${scope}-${idx + 1}`);
+        const dist = populationData[idx][scope];
+        const valueIdx = Number(input.value) + 2;
+        let cumulative = 0;
+        for (let i = 0; i < valueIdx; i++) cumulative += dist[i];
+        const markerPct = cumulative + dist[valueIdx] / 2;
+        const marker = cell.querySelector('.own-marker');
+        if (marker) marker.style.left = `${markerPct}%`;
+      });
+    }
+    document.querySelectorAll('#rows input[type="range"]').forEach(input => {
+      input.addEventListener('input', refreshMarkers);
+    });
+
+    // Reveal toggle.
+    const revealBtn = document.querySelector('#reveal-comparison');
+    const comparisonBody = document.querySelector('#comparison-body');
+    revealBtn.addEventListener('click', () => {
+      const isHidden = comparisonBody.hasAttribute('hidden');
+      if (isHidden) {
+        comparisonBody.removeAttribute('hidden');
+        revealBtn.setAttribute('aria-expanded', 'true');
+        revealBtn.textContent = 'Hide comparison';
+        refreshMarkers();
+      } else {
+        comparisonBody.setAttribute('hidden', '');
+        revealBtn.setAttribute('aria-expanded', 'false');
+        revealBtn.textContent = 'Reveal comparison';
+      }
     });
   </script>
 </body>
