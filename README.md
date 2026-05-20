@@ -1,4 +1,4 @@
-# InsightSurvey Demo UI
+# SCS Survey Demo UI
 
 This project is a small static demo site that recreates a survey interface inspired by the provided design reference.
 

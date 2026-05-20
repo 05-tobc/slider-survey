@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>InsightSurvey Prototype</title>
+  <title>SCS Survey Prototype</title>
   <style>
     :root {
       --ink: #10183f;
@@ -117,6 +117,22 @@
       box-shadow: 0 6px 18px rgba(31, 45, 93, .04);
     }
 
+    .proto-pill {
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      padding: 0 10px;
+      margin-left: 2px;
+      border-radius: 999px;
+      color: #b85a00;
+      background: #fff2dc;
+      border: 1px solid #f4d9a8;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
     .step-pill {
       display: inline-flex;
       align-items: center;
@@ -147,6 +163,7 @@
     }
 
     .hero {
+      position: relative;
       display: grid;
       grid-template-columns: 280px 1fr;
       gap: 48px;
@@ -157,6 +174,36 @@
       border-radius: 9px;
       background: rgba(255, 255, 255, .9);
       box-shadow: 0 18px 48px rgba(23, 34, 80, .05);
+      overflow: hidden;
+    }
+
+    /* Diagonal ribbon across the hero's top-right corner. */
+    .hero-ribbon {
+      position: absolute;
+      top: 28px;
+      right: -78px;
+      width: 280px;
+      transform: rotate(45deg);
+      padding: 8px 0;
+      text-align: center;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #ee3d68, #c5234c);
+      box-shadow: 0 6px 18px rgba(197, 35, 76, .28);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .hero-ribbon span {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      opacity: .9;
+      margin-top: 2px;
     }
 
     .hero-art {
@@ -814,6 +861,15 @@
         height: 132px;
       }
 
+      .hero-ribbon {
+        top: 22px;
+        right: -90px;
+        width: 240px;
+        padding: 6px 0;
+        font-size: 11px;
+      }
+      .hero-ribbon span { font-size: 9px; }
+
       .columns-head,
       .topic-row,
       .compare-row {
@@ -908,7 +964,8 @@
             <path d="M3 13h4.1l2.2-5.2 4.4 11.1 2.2-5.9H23" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <span>InsightSurvey</span>
+        <span>SCS Survey</span>
+        <span class="proto-pill" title="This is a non-functional design prototype">Prototype</span>
       </div>
       <div class="top-actions">
         <button class="ghost-btn">Save &amp; exit</button>
@@ -923,6 +980,10 @@
 
     <main>
       <section class="hero">
+        <div class="hero-ribbon" role="note" aria-label="Prototype notice">
+          Prototype
+          <span>No data is stored</span>
+        </div>
         <div class="hero-art" aria-hidden="true">
           <div class="main"><i data-lucide="globe"></i></div>
           <div class="sat top"><i data-lucide="heart-handshake"></i></div>
@@ -987,7 +1048,7 @@
         <div class="comparison-intro">
           <div>
             <h2 id="comparison-heading">How your answers compare</h2>
-            <p>See how your responses line up with the wider population. Each bar shows the share of respondents at each rating; the marker below shows your answer.</p>
+            <p>See how your responses line up with the wider population. Each bar shows the share of respondents at each rating; the marker below shows your answer. <strong>Note:</strong> the distributions shown here are <strong>fictional placeholder data</strong> used to demonstrate the prototype — they do not reflect real survey responses.</p>
           </div>
           <button type="button" class="reveal-btn" id="reveal-comparison" aria-expanded="false" aria-controls="comparison-body">Reveal comparison</button>
         </div>
