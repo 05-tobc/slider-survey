@@ -142,6 +142,54 @@
       gap: 16px;
     }
 
+    .lang-switch {
+      display: inline-flex;
+      align-items: stretch;
+      height: 42px;
+      border: 1px solid var(--ink);
+      border-radius: 2px;
+      background: var(--paper);
+      overflow: hidden;
+      font-family: var(--mono);
+    }
+
+    .lang-btn {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      min-width: 40px;
+      padding: 0 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 0.18s ease, background 0.18s ease;
+    }
+
+    .lang-btn:hover { color: var(--ink); }
+
+    .lang-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: -2px;
+    }
+
+    .lang-btn.is-active {
+      color: var(--paper);
+      background: var(--ink);
+    }
+
+    .lang-sep {
+      width: 1px;
+      background: var(--ink);
+      opacity: 0.9;
+    }
+
     .ghost-btn,
     .step-pill,
     .nav-btn {
@@ -1456,25 +1504,30 @@
             <path d="M3 13h4.1l2.2-5.2 4.4 11.1 2.2-5.9H23" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <span>SCS Survey</span>
-        <span class="proto-pill" title="This is a non-functional design prototype">Prototype</span>
+        <span data-i18n="brand.name">SCS Survey</span>
+        <span class="proto-pill" data-i18n="brand.proto" data-i18n-attr="title:brand.proto_title" title="This is a non-functional design prototype">Prototype</span>
       </div>
       <div class="top-actions">
-        <button class="ghost-btn">Save &amp; exit</button>
-        <div class="step-pill">1 / 12</div>
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button type="button" class="lang-btn is-active" data-lang="en" aria-pressed="true">EN</button>
+          <span class="lang-sep" aria-hidden="true"></span>
+          <button type="button" class="lang-btn" data-lang="no" aria-pressed="false">NO</button>
+        </div>
+        <button class="ghost-btn" data-i18n="topbar.save">Save &amp; exit</button>
+        <div class="step-pill"><span data-i18n="topbar.step">1 / 12</span></div>
       </div>
     </header>
 
-    <div class="sr-only" aria-live="polite">Step 1 of 12</div>
-    <div class="progress-track" role="progressbar" aria-label="Survey progress" aria-valuemin="1" aria-valuemax="12" aria-valuenow="1">
+    <div class="sr-only" aria-live="polite" data-i18n="a11y.step">Step 1 of 12</div>
+    <div class="progress-track" role="progressbar" data-i18n-attr="aria-label:a11y.progress" aria-label="Survey progress" aria-valuemin="1" aria-valuemax="12" aria-valuenow="1">
       <div class="progress-fill"></div>
     </div>
 
     <main>
       <section class="hero">
-        <div class="hero-ribbon" role="note" aria-label="Prototype notice">
-          Prototype
-          <span>No data is stored</span>
+        <div class="hero-ribbon" role="note" data-i18n-attr="aria-label:hero.ribbon_a11y" aria-label="Prototype notice">
+          <span data-i18n="hero.ribbon_main">Prototype</span>
+          <span data-i18n="hero.ribbon_sub">No data is stored</span>
         </div>
         <div class="hero-art" aria-hidden="true">
           <div class="main"><i data-lucide="globe"></i></div>
@@ -1483,11 +1536,11 @@
           <div class="sat bl"><i data-lucide="users-round"></i></div>
         </div>
         <div>
-          <h1>A baseline survey on <em>socio-cultural sustainability</em></h1>
-          <p>This baseline survey helps us understand how people generally feel about key aspects of socio-cultural sustainability in everyday life.</p>
+          <h1 data-i18n-html="hero.title">A baseline survey on <em>socio-cultural sustainability</em></h1>
+          <p data-i18n="hero.intro">This baseline survey helps us understand how people generally feel about key aspects of socio-cultural sustainability in everyday life.</p>
           <div class="note">
             <div class="note-icon">i</div>
-            <div>There are no right or wrong answers. Please respond based on your current feelings and perceptions.</div>
+            <div data-i18n="hero.note">There are no right or wrong answers. Please respond based on your current feelings and perceptions.</div>
           </div>
         </div>
       </section>
@@ -1496,11 +1549,11 @@
         <div class="scenario-head">
           <div class="scenario-eyebrow" id="scenario-label">
             <span class="scenario-mark" aria-hidden="true"></span>
-            Scenario
+            <span data-i18n="scenario.eyebrow">Scenario</span>
           </div>
-          <div class="scenario-tabs" role="tablist" aria-label="Choose scenario">
-            <button type="button" class="scenario-tab is-active" role="tab" aria-selected="true" data-scenario="0">General</button>
-            <button type="button" class="scenario-tab" role="tab" aria-selected="false" data-scenario="1">Bridge closure</button>
+          <div class="scenario-tabs" role="tablist" data-i18n-attr="aria-label:scenario.tabs_a11y" aria-label="Choose scenario">
+            <button type="button" class="scenario-tab is-active" role="tab" aria-selected="true" data-scenario="0" data-i18n="scenario.tab_general">General</button>
+            <button type="button" class="scenario-tab" role="tab" aria-selected="false" data-scenario="1" data-i18n="scenario.tab_bridge">Bridge closure</button>
           </div>
         </div>
         <blockquote class="scenario-quote" id="scenario-quote">
@@ -1517,12 +1570,12 @@
         <div class="rows" id="rows" aria-labelledby="survey-question" aria-describedby="survey-help"></div>
 
         <div class="footer">
-          <button class="nav-btn" aria-label="Back">
+          <button class="nav-btn" data-i18n-attr="aria-label:nav.back" aria-label="Back">
             <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6M9 12h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Back
+            <span data-i18n="nav.back">Back</span>
           </button>
-          <button class="nav-btn primary" aria-label="Next">
-            Next
+          <button class="nav-btn primary" data-i18n-attr="aria-label:nav.next" aria-label="Next">
+            <span data-i18n="nav.next">Next</span>
             <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6M15 12H3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
@@ -1531,18 +1584,18 @@
       <section class="comparison" aria-labelledby="comparison-heading">
         <div class="comparison-intro">
           <div>
-            <h2 id="comparison-heading">How your answers compare</h2>
-            <p>See how your responses line up with the wider population. Each bar shows the share of respondents at each rating; the marker below shows your answer. <strong>Note:</strong> the distributions shown here are <strong>fictional placeholder data</strong> used to demonstrate the prototype — they do not reflect real survey responses.</p>
+            <h2 id="comparison-heading" data-i18n="comparison.heading">How your answers compare</h2>
+            <p data-i18n-html="comparison.intro_html">See how your responses line up with the wider population. Each bar shows the share of respondents at each rating; the marker below shows your answer. <strong>Note:</strong> the distributions shown here are <strong>fictional placeholder data</strong> used to demonstrate the prototype — they do not reflect real survey responses.</p>
           </div>
-          <button type="button" class="reveal-btn" id="reveal-comparison" aria-expanded="false" aria-controls="comparison-body">Reveal comparison</button>
+          <button type="button" class="reveal-btn" id="reveal-comparison" aria-expanded="false" aria-controls="comparison-body" data-i18n="comparison.reveal">Reveal comparison</button>
         </div>
         <div id="comparison-body" hidden>
           <div class="comparison-legend" aria-hidden="true">
-            <span class="legend-item"><span class="legend-swatch s--2"></span>Very negative</span>
-            <span class="legend-item"><span class="legend-swatch s--1"></span>Negative</span>
-            <span class="legend-item"><span class="legend-swatch s-0"></span>Indifferent</span>
-            <span class="legend-item"><span class="legend-swatch s-1"></span>Positive</span>
-            <span class="legend-item"><span class="legend-swatch s-2"></span>Very positive</span>
+            <span class="legend-item"><span class="legend-swatch s--2"></span><span data-i18n="rating.-2">Very negative</span></span>
+            <span class="legend-item"><span class="legend-swatch s--1"></span><span data-i18n="rating.-1">Negative</span></span>
+            <span class="legend-item"><span class="legend-swatch s-0"></span><span data-i18n="rating.0">Indifferent</span></span>
+            <span class="legend-item"><span class="legend-swatch s-1"></span><span data-i18n="rating.1">Positive</span></span>
+            <span class="legend-item"><span class="legend-swatch s-2"></span><span data-i18n="rating.2">Very positive</span></span>
           </div>
           <div class="comparison-rows" id="comparison-rows"></div>
         </div>
@@ -1552,117 +1605,357 @@
 
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script>
-    const topics = [
-      {
-        name: 'Trust', icon: 'handshake', color: 'c-violet',
-        desc: 'Trust that institutions and community members act reliably and in the common interest.',
-        own: 'How much I trust institutions and people around me to act in my and the community’s interest.',
-        others: 'How much the community trusts institutions and each other.'
+    /* =========================================================================
+       i18n
+       =========================================================================
+       Single source of truth for every user-facing string. Add a new locale
+       by adding an object next to en/no with the same keys. */
+
+    const i18n = {
+      en: {
+        'brand.name': 'SCS Survey',
+        'brand.proto': 'Prototype',
+        'brand.proto_title': 'This is a non-functional design prototype',
+
+        'topbar.save': 'Save & exit',
+        'topbar.step': '1 / 12',
+
+        'a11y.step': 'Step 1 of 12',
+        'a11y.progress': 'Survey progress',
+        'a11y.population_dist': 'Population distribution',
+
+        'hero.ribbon_a11y': 'Prototype notice',
+        'hero.ribbon_main': 'Prototype',
+        'hero.ribbon_sub': 'No data is stored',
+        'hero.title': 'A baseline survey on <em>socio-cultural sustainability</em>',
+        'hero.intro': 'This baseline survey helps us understand how people generally feel about key aspects of socio-cultural sustainability in everyday life.',
+        'hero.note': 'There are no right or wrong answers. Please respond based on your current feelings and perceptions.',
+
+        'scenario.eyebrow': 'Scenario',
+        'scenario.tabs_a11y': 'Choose scenario',
+        'scenario.tab_general': 'General',
+        'scenario.tab_bridge': 'Bridge closure',
+
+        'scenarios': [
+          {
+            quote: 'Your general life over the past two weeks.',
+            intro: 'How do you generally feel about each of the following?',
+            help:  'For each topic, rate how it affects you personally, and how you think it affects others in your community.'
+          },
+          {
+            quote: 'The Nordsund bridge suddenly closes due to strong winds on a Tuesday morning, and stays closed for 24 hours.',
+            intro: 'Given this scenario, how do you perceive yourself on the following?',
+            help:  'For each topic, rate how the situation affects you personally, and how you think it affects others in your community.'
+          }
+        ],
+
+        'scope.own.label':    'Own',
+        'scope.own.sub':      'Individual',
+        'scope.others.label': 'Others',
+        'scope.others.sub':   'Communal',
+        'scope.own.aria':     (name) => `Own feeling, ${name}`,
+        'scope.others.aria':  (name) => `Others feeling, ${name}`,
+
+        'rating.-2': 'Very negative',
+        'rating.-1': 'Negative',
+        'rating.0':  'Indifferent',
+        'rating.1':  'Positive',
+        'rating.2':  'Very positive',
+        'slider.labels': ['Very negative', 'Indifferent', 'Very positive'],
+        'slider.aria_value': (label, value) => `${label} (${value})`,
+        'slider.live_state': (value, label) => `Current value: ${value}, ${label}`,
+
+        'nav.back': 'Back',
+        'nav.next': 'Next',
+
+        'comparison.heading': 'How your answers compare',
+        'comparison.intro_html': 'See how your responses line up with the wider population. Each bar shows the share of respondents at each rating; the marker below shows your answer. <strong>Note:</strong> the distributions shown here are <strong>fictional placeholder data</strong> used to demonstrate the prototype — they do not reflect real survey responses.',
+        'comparison.reveal': 'Reveal comparison',
+        'comparison.hide':   'Hide comparison',
+        'comparison.you':    'you',
+        'comparison.scope_own':    'Own',
+        'comparison.scope_others': 'Others',
+        'comparison.row_aria':     (n, name) => `${n}. ${name} comparison`,
+        'comparison.seg_title':    (label, p) => `${label}: ${p}%`,
+
+        'topic.row_aria': (n, name) => `${n}. ${name}`,
+        'topics': [
+          {
+            name: 'Trust',
+            desc: 'Trust that institutions and community members act reliably and in the common interest.',
+            own:  'How much I trust institutions and people around me to act in my and the community’s interest.',
+            others: 'How much the community trusts institutions and each other.'
+          },
+          {
+            name: 'Security',
+            desc: 'A sense of physical, psychological, and economic safety, free from threats or violence.',
+            own:  'How safe I feel physically, financially, and psychologically in daily life.',
+            others: 'How free the community is from crime, hazards, and economic shocks — and how well protective systems work.'
+          },
+          {
+            name: 'Self-esteem',
+            desc: 'Feeling valued, confident, and capable as an individual.',
+            own:  'My sense of worth, confidence, dignity, and ability to influence my own life.',
+            others: 'How much community norms, narratives, and institutions affirm the dignity of all members.'
+          },
+          {
+            name: 'Social support',
+            desc: 'Access to practical and emotional help from family, friends, and the community.',
+            own:  'Whether I can count on family, friends, neighbors, and colleagues for help and support when needed.',
+            others: 'Strength and accessibility of support networks and services (e.g. community centers, volunteering, mutual aid).'
+          },
+          {
+            name: 'Empathy',
+            desc: 'Experiencing and showing understanding, care, and compassion within the community.',
+            own:  'How much I feel understood, respected, and cared for — and how I practice empathy toward others.',
+            others: 'The prevailing culture of compassion and perspective-taking in public life and everyday interactions.'
+          },
+          {
+            name: 'Physical needs',
+            desc: 'Reliable access to essentials such as clean air, food, water, shelter, clothing, and rest.',
+            own:  'Whether my basic needs — clean air, food, water, shelter, clothing, and rest — are reliably met.',
+            others: 'Infrastructure, policies, and services that ensure universal access to essentials.'
+          },
+          {
+            name: 'Physical health',
+            desc: 'Energy, mobility, and the physical ability to function well in daily life.',
+            own:  'My physical functioning, fitness, and ability to perform daily activities free from disease or pain.',
+            others: 'Population health and health-promoting environments (safe streets, active transport, green spaces, access to care).'
+          },
+          {
+            name: 'Mental health',
+            desc: 'Emotional balance, resilience, and cognitive functioning such as focus and stress management.',
+            own:  'My emotional well-being, resilience, stress levels, and cognitive functioning.',
+            others: 'Prevalence of psychological well-being and access to mental health support across the community.'
+          },
+          {
+            name: 'Meaning and coherence',
+            desc: 'A sense of purpose, direction, and understanding of one’s life context.',
+            own:  'My clarity of purpose, sense that life is meaningful, and that my experiences fit together coherently.',
+            others: 'Shared narratives, cultural life, and institutions that make the city feel like it "makes sense".'
+          },
+          {
+            name: 'Participation and inclusion',
+            desc: 'Being able to take part in public life and feeling included in community spaces and processes.',
+            own:  'My ability to be heard, take part in decisions, and access public spaces and services without barriers.',
+            others: 'Openness and fairness of civic processes, and diversity of representation in decision-making.'
+          },
+          {
+            name: 'Justice and non-discrimination',
+            desc: 'Fair treatment and equal opportunities, free from bias or exclusion.',
+            own:  'Whether I am treated fairly regardless of identity or status and have equal access to rights and opportunities.',
+            others: 'How fairly rules are applied across the community, and the level of disparities and anti-discrimination norms in institutions.'
+          },
+          {
+            name: 'Belonging and identity',
+            desc: 'Feeling connected to others with shared values, and identifying with the community.',
+            own:  'Feeling accepted, seen, and connected to place, culture, and communities; pride in who I am.',
+            others: 'Strength of social cohesion and inclusive identities that bridge differences across groups and neighborhoods.'
+          }
+        ]
       },
-      {
-        name: 'Security', icon: 'shield-check', color: 'c-blue',
-        desc: 'A sense of physical, psychological, and economic safety, free from threats or violence.',
-        own: 'How safe I feel physically, financially, and psychologically in daily life.',
-        others: 'How free the community is from crime, hazards, and economic shocks — and how well protective systems work.'
-      },
-      {
-        name: 'Self-esteem', icon: 'award', color: 'c-rose',
-        desc: 'Feeling valued, confident, and capable as an individual.',
-        own: 'My sense of worth, confidence, dignity, and ability to influence my own life.',
-        others: 'How much community norms, narratives, and institutions affirm the dignity of all members.'
-      },
-      {
-        name: 'Social support', icon: 'hand-heart', color: 'c-orange',
-        desc: 'Access to practical and emotional help from family, friends, and the community.',
-        own: 'Whether I can count on family, friends, neighbors, and colleagues for help and support when needed.',
-        others: 'Strength and accessibility of support networks and services (e.g. community centers, volunteering, mutual aid).'
-      },
-      {
-        name: 'Empathy', icon: 'heart-handshake', color: 'c-rose',
-        desc: 'Experiencing and showing understanding, care, and compassion within the community.',
-        own: 'How much I feel understood, respected, and cared for — and how I practice empathy toward others.',
-        others: 'The prevailing culture of compassion and perspective-taking in public life and everyday interactions.'
-      },
-      {
-        name: 'Physical needs', icon: 'bed-single', color: 'c-orange',
-        desc: 'Reliable access to essentials such as clean air, food, water, shelter, clothing, and rest.',
-        own: 'Whether my basic needs — clean air, food, water, shelter, clothing, and rest — are reliably met.',
-        others: 'Infrastructure, policies, and services that ensure universal access to essentials.'
-      },
-      {
-        name: 'Physical Health', icon: 'heart-pulse', color: 'c-green',
-        desc: 'Energy, mobility, and the physical ability to function well in daily life.',
-        own: 'My physical functioning, fitness, and ability to perform daily activities free from disease or pain.',
-        others: 'Population health and health-promoting environments (safe streets, active transport, green spaces, access to care).'
-      },
-      {
-        name: 'Mental Health', icon: 'brain', color: 'c-blue',
-        desc: 'Emotional balance, resilience, and cognitive functioning such as focus and stress management.',
-        own: 'My emotional well-being, resilience, stress levels, and cognitive functioning.',
-        others: 'Prevalence of psychological well-being and access to mental health support across the community.'
-      },
-      {
-        name: 'Meaning and Coherence', icon: 'compass', color: 'c-violet',
-        desc: 'A sense of purpose, direction, and understanding of one’s life context.',
-        own: 'My clarity of purpose, sense that life is meaningful, and that my experiences fit together coherently.',
-        others: 'Shared narratives, cultural life, and institutions that make the city feel like it "makes sense".'
-      },
-      {
-        name: 'Participation and inclusion', icon: 'users-round', color: 'c-green',
-        desc: 'Being able to take part in public life and feeling included in community spaces and processes.',
-        own: 'My ability to be heard, take part in decisions, and access public spaces and services without barriers.',
-        others: 'Openness and fairness of civic processes, and diversity of representation in decision-making.'
-      },
-      {
-        name: 'Justice and non-discrimination', icon: 'scale', color: 'c-blue',
-        desc: 'Fair treatment and equal opportunities, free from bias or exclusion.',
-        own: 'Whether I am treated fairly regardless of identity or status and have equal access to rights and opportunities.',
-        others: 'How fairly rules are applied across the community, and the level of disparities and anti-discrimination norms in institutions.'
-      },
-      {
-        name: 'Belonging and identity', icon: 'circle-user-round', color: 'c-violet',
-        desc: 'Feeling connected to others with shared values, and identifying with the community.',
-        own: 'Feeling accepted, seen, and connected to place, culture, and communities; pride in who I am.',
-        others: 'Strength of social cohesion and inclusive identities that bridge differences across groups and neighborhoods.'
+
+      no: {
+        'brand.name': 'SCS-undersøkelsen',
+        'brand.proto': 'Prototype',
+        'brand.proto_title': 'Dette er en ikke-funksjonell designprototype',
+
+        'topbar.save': 'Lagre og avslutt',
+        'topbar.step': '1 / 12',
+
+        'a11y.step': 'Steg 1 av 12',
+        'a11y.progress': 'Fremdrift i undersøkelsen',
+        'a11y.population_dist': 'Fordeling i befolkningen',
+
+        'hero.ribbon_a11y': 'Prototypvarsel',
+        'hero.ribbon_main': 'Prototype',
+        'hero.ribbon_sub': 'Ingen data lagres',
+        'hero.title': 'En kartlegging av <em>sosiokulturell bærekraft</em>',
+        'hero.intro': 'Denne kartleggingen hjelper oss å forstå hvordan folk generelt opplever sentrale sider ved sosiokulturell bærekraft i hverdagen.',
+        'hero.note': 'Det finnes ingen riktige eller gale svar. Svar ut fra hvordan du føler og opplever det akkurat nå.',
+
+        'scenario.eyebrow': 'Scenario',
+        'scenario.tabs_a11y': 'Velg scenario',
+        'scenario.tab_general': 'Generelt',
+        'scenario.tab_bridge': 'Brustenging',
+
+        'scenarios': [
+          {
+            quote: 'Ditt generelle liv de siste to ukene.',
+            intro: 'Hvordan oppfatter du deg selv på disse områdene?',
+            help:  'For hvert tema: vurder hvordan det påvirker deg personlig, og hvordan du tror det påvirker andre i lokalsamfunnet ditt.'
+          },
+          {
+            quote: 'Nordsundbrua blir plutselig stengt på grunn av sterk vind en tirsdags formiddag, og forblir stengt i 24 timer.',
+            intro: 'Med utgangspunkt i dette scenarioet — hvordan oppfatter du deg selv på disse områdene?',
+            help:  'For hvert tema: vurder hvordan situasjonen påvirker deg personlig, og hvordan du tror den påvirker andre i lokalsamfunnet ditt.'
+          }
+        ],
+
+        'scope.own.label':    'Selv',
+        'scope.own.sub':      'Individuelt',
+        'scope.others.label': 'Andre',
+        'scope.others.sub':   'Felles',
+        'scope.own.aria':     (name) => `Egen opplevelse, ${name}`,
+        'scope.others.aria':  (name) => `Andres opplevelse, ${name}`,
+
+        'rating.-2': 'Svært negativt',
+        'rating.-1': 'Negativt',
+        'rating.0':  'Verken eller',
+        'rating.1':  'Positivt',
+        'rating.2':  'Svært positivt',
+        'slider.labels': ['Svært negativt', 'Verken eller', 'Svært positivt'],
+        'slider.aria_value': (label, value) => `${label} (${value})`,
+        'slider.live_state': (value, label) => `Nåværende verdi: ${value}, ${label}`,
+
+        'nav.back': 'Tilbake',
+        'nav.next': 'Neste',
+
+        'comparison.heading': 'Slik sammenlignes svarene dine',
+        'comparison.intro_html': 'Se hvordan svarene dine står seg mot resten av befolkningen. Hver søyle viser andelen som har svart på hvert nivå; markøren under viser ditt eget svar. <strong>Merk:</strong> fordelingene som vises her er <strong>fiktive eksempeldata</strong> brukt for å demonstrere prototypen — de gjenspeiler ikke faktiske svar.',
+        'comparison.reveal': 'Vis sammenligning',
+        'comparison.hide':   'Skjul sammenligning',
+        'comparison.you':    'deg',
+        'comparison.scope_own':    'Selv',
+        'comparison.scope_others': 'Andre',
+        'comparison.row_aria':     (n, name) => `${n}. ${name} – sammenligning`,
+        'comparison.seg_title':    (label, p) => `${label}: ${p} %`,
+
+        'topic.row_aria': (n, name) => `${n}. ${name}`,
+        'topics': [
+          {
+            name: 'Tillit',
+            desc: 'Tillit til at institusjoner og mennesker rundt deg handler pålitelig og i fellesskapets interesse.',
+            own:  'Hvor mye jeg stoler på at institusjoner og folk rundt meg handler i min og lokalsamfunnets interesse.',
+            others: 'Hvor mye lokalsamfunnet har tillit til institusjonene og til hverandre.'
+          },
+          {
+            name: 'Trygghet',
+            desc: 'En følelse av fysisk, psykisk og økonomisk trygghet, fri fra trusler og vold.',
+            own:  'Hvor trygg jeg føler meg fysisk, økonomisk og psykisk i hverdagen.',
+            others: 'I hvilken grad lokalsamfunnet er fritt for kriminalitet, farer og økonomiske sjokk — og hvor godt sikkerhetsnettet fungerer.'
+          },
+          {
+            name: 'Selvfølelse',
+            desc: 'Å føle seg verdsatt, trygg på seg selv og kapabel som menneske.',
+            own:  'Min følelse av egenverd, selvtillit, verdighet og evne til å påvirke mitt eget liv.',
+            others: 'I hvilken grad normer, fortellinger og institusjoner i samfunnet anerkjenner verdigheten til alle.'
+          },
+          {
+            name: 'Sosial støtte',
+            desc: 'Tilgang til praktisk og emosjonell hjelp fra familie, venner og lokalsamfunnet.',
+            own:  'Om jeg kan regne med familie, venner, naboer og kolleger når jeg trenger hjelp og støtte.',
+            others: 'Styrken og tilgjengeligheten av støttenettverk og tjenester (f.eks. nærmiljøsentre, frivillighet, gjensidig hjelp).'
+          },
+          {
+            name: 'Empati',
+            desc: 'Å oppleve og vise forståelse, omsorg og medfølelse i fellesskapet.',
+            own:  'Hvor godt jeg føler meg forstått, respektert og ivaretatt — og hvordan jeg selv viser empati overfor andre.',
+            others: 'Den rådende kulturen for medfølelse og perspektivtaking i samfunnslivet og i hverdagslige møter.'
+          },
+          {
+            name: 'Grunnleggende behov',
+            desc: 'Pålitelig tilgang til det nødvendigste: ren luft, mat, vann, bolig, klær og hvile.',
+            own:  'Om de grunnleggende behovene mine — ren luft, mat, vann, bolig, klær og hvile — er pålitelig dekket.',
+            others: 'Infrastruktur, regelverk og tjenester som sikrer alle tilgang til det nødvendigste.'
+          },
+          {
+            name: 'Fysisk helse',
+            desc: 'Energi, bevegelighet og fysisk evne til å fungere godt i hverdagen.',
+            own:  'Min fysiske form, funksjon og evne til å utføre dagligdagse gjøremål uten sykdom eller smerter.',
+            others: 'Folkehelsen og helsefremmende omgivelser (trygge gater, aktiv transport, grøntområder, tilgang til helsetjenester).'
+          },
+          {
+            name: 'Psykisk helse',
+            desc: 'Følelsesmessig balanse, motstandskraft og kognitiv fungering som konsentrasjon og stresshåndtering.',
+            own:  'Mitt følelsesmessige velvære, motstandskraft, stressnivå og kognitiv fungering.',
+            others: 'Utbredelsen av psykisk velvære og tilgangen til hjelp ved psykiske plager i samfunnet.'
+          },
+          {
+            name: 'Mening og sammenheng',
+            desc: 'En følelse av mening, retning og forståelse av sin egen livssituasjon.',
+            own:  'Klarhet i hva jeg vil, opplevelsen av at livet er meningsfullt, og at erfaringene mine henger sammen.',
+            others: 'Felles fortellinger, kulturliv og institusjoner som gir byen retning og en følelse av at det "gir mening".'
+          },
+          {
+            name: 'Deltakelse og inkludering',
+            desc: 'Å kunne ta del i samfunnslivet og føle seg inkludert i fellesskapets rom og prosesser.',
+            own:  'Min mulighet til å bli hørt, delta i beslutninger og bruke offentlige rom og tjenester uten hindringer.',
+            others: 'Åpenheten og rettferdigheten i demokratiske prosesser, og mangfold i representasjon og beslutningstaking.'
+          },
+          {
+            name: 'Rettferdighet og ikke-diskriminering',
+            desc: 'Rettferdig behandling og like muligheter, uten fordommer eller utestenging.',
+            own:  'Om jeg blir behandlet rettferdig uavhengig av hvem jeg er, og har lik tilgang til rettigheter og muligheter.',
+            others: 'Hvor rettferdig reglene anvendes i samfunnet, og hvor små forskjellene er — pluss styrken på normer mot diskriminering i institusjoner.'
+          },
+          {
+            name: 'Tilhørighet og identitet',
+            desc: 'Å føle seg knyttet til andre med felles verdier, og å identifisere seg med fellesskapet.',
+            own:  'Å føle meg akseptert, sett og knyttet til sted, kultur og fellesskap; stolthet over hvem jeg er.',
+            others: 'Styrken på sosialt samhold og inkluderende identiteter som bygger broer mellom grupper og nabolag.'
+          }
+        ]
       }
+    };
+
+    /* Structural metadata that doesn't depend on language. Indexed by topic position. */
+    const topicMeta = [
+      { icon: 'handshake',         color: 'c-violet' },
+      { icon: 'shield-check',      color: 'c-blue'   },
+      { icon: 'award',             color: 'c-rose'   },
+      { icon: 'hand-heart',        color: 'c-orange' },
+      { icon: 'heart-handshake',   color: 'c-rose'   },
+      { icon: 'bed-single',        color: 'c-orange' },
+      { icon: 'heart-pulse',       color: 'c-green'  },
+      { icon: 'brain',             color: 'c-blue'   },
+      { icon: 'compass',           color: 'c-violet' },
+      { icon: 'users-round',       color: 'c-green'  },
+      { icon: 'scale',             color: 'c-blue'   },
+      { icon: 'circle-user-round', color: 'c-violet' }
     ];
 
-    const scopeMeta = {
-      own: {
-        label: 'Own',
-        sub: 'Individual',
-        cls: 'c-violet',
-        svg: '<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="10" r="5" stroke="currentColor" stroke-width="2.4"/><path d="M7 27v-4c0-5 4-8 9-8s9 3 9 8v4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>'
-      },
-      others: {
-        label: 'Others',
-        sub: 'Communal',
-        cls: 'c-green',
-        svg: '<svg viewBox="0 0 34 34" fill="none"><circle cx="17" cy="10" r="4" stroke="currentColor" stroke-width="2.3"/><circle cx="8" cy="14" r="3" stroke="currentColor" stroke-width="2.3"/><circle cx="26" cy="14" r="3" stroke="currentColor" stroke-width="2.3"/><path d="M10 25v-3c0-4 3-6 7-6s7 2 7 6v3M3 24v-2c0-3 2-5 5-5M31 24v-2c0-3-2-5-5-5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></svg>'
-      }
+    const moodMeta = {
+      '-2': { moodClass: 'is-very-negative', icon: 'angry' },
+      '-1': { moodClass: 'is-negative',      icon: 'frown' },
+       '0': { moodClass: 'is-neutral',       icon: 'meh'   },
+       '1': { moodClass: 'is-positive',      icon: 'smile' },
+       '2': { moodClass: 'is-very-positive', icon: 'laugh' }
     };
 
-    const rows = document.querySelector('#rows');
-
-    const ratings = {
-      '-2': { label: 'Very negative', moodClass: 'is-very-negative', icon: 'angry' },
-      '-1': { label: 'Negative',      moodClass: 'is-negative',      icon: 'frown' },
-       '0': { label: 'Indifferent',   moodClass: 'is-neutral',       icon: 'meh' },
-       '1': { label: 'Positive',      moodClass: 'is-positive',      icon: 'smile' },
-       '2': { label: 'Very positive', moodClass: 'is-very-positive', icon: 'laugh' }
+    const scopeSvg = {
+      own:    '<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="10" r="5" stroke="currentColor" stroke-width="2.4"/><path d="M7 27v-4c0-5 4-8 9-8s9 3 9 8v4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>',
+      others: '<svg viewBox="0 0 34 34" fill="none"><circle cx="17" cy="10" r="4" stroke="currentColor" stroke-width="2.3"/><circle cx="8" cy="14" r="3" stroke="currentColor" stroke-width="2.3"/><circle cx="26" cy="14" r="3" stroke="currentColor" stroke-width="2.3"/><path d="M10 25v-3c0-4 3-6 7-6s7 2 7 6v3M3 24v-2c0-3 2-5 5-5M31 24v-2c0-3-2-5-5-5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></svg>'
     };
+
+    /* Active language. Updated by setLang(). */
+    let lang = (() => {
+      const stored = (() => { try { return localStorage.getItem('scs-lang'); } catch (e) { return null; } })();
+      if (stored && i18n[stored]) return stored;
+      const nav = (navigator.language || '').toLowerCase();
+      return nav.startsWith('no') || nav.startsWith('nb') || nav.startsWith('nn') ? 'no' : 'en';
+    })();
+
+    const t = (key) => i18n[lang][key];
+    const tn = (lng, key) => i18n[lng][key];
+
+    /* ---- Rendering ---- */
+
+    const numLabel = (i) => String(i + 1).padStart(2, '0');
 
     function scopeLabel(scope, hint) {
-      const m = scopeMeta[scope];
+      const label = t(`scope.${scope}.label`);
+      const sub   = t(`scope.${scope}.sub`);
       return `
         <div class="scope-label">
-          <span class="scope-badge ${m.cls}" aria-hidden="true">${m.svg}</span>
-          <span class="scope-name">${m.label} <span style="opacity:.7;font-weight:600">· ${m.sub}</span></span>
+          <span class="scope-badge ${scope === 'own' ? 'c-violet' : 'c-green'}" aria-hidden="true">${scopeSvg[scope]}</span>
+          <span class="scope-name">${label} <span>· ${sub}</span></span>
           <span class="scope-hint">${hint}</span>
         </div>`;
     }
 
     function slider(name, id) {
+      const labels = t('slider.labels');
       return `
         <div class="slider-cell" data-title="${name}" style="--pct: 0.5">
           <label class="sr-only" for="${id}">${name}</label>
@@ -1673,123 +1966,125 @@
               <div class="ticks" aria-hidden="true">
                 ${[-2, -1, 0, 1, 2].map((v, i) => `<div class="tick" style="--pct: ${i / 4}">${v}</div>`).join('')}
               </div>
-              <div class="labels"><span>Very negative</span><span>Indifferent</span><span>Very positive</span></div>
+              <div class="labels"><span>${labels[0]}</span><span>${labels[1]}</span><span>${labels[2]}</span></div>
             </div>
             <div class="mood is-neutral" aria-hidden="true">
               <i data-lucide="meh"></i>
             </div>
           </div>
-          <div class="sr-only" id="${id}-state" aria-live="polite">Current value: 0, Indifferent</div>
+          <div class="sr-only" id="${id}-state" aria-live="polite">${t('slider.live_state')('0', t('rating.0'))}</div>
         </div>`;
     }
 
-    const numLabel = (i) => String(i + 1).padStart(2, '0');
-
-    rows.innerHTML = topics.map((topic, index) => `
-      <section class="topic-row" role="group" aria-label="${index + 1}. ${topic.name}" style="animation-delay:${index * 40}ms">
-        <header class="topic-header">
-          <div class="icon-tile ${topic.color}" aria-hidden="true"><i data-lucide="${topic.icon}"></i></div>
-          <div>
-            <div class="topic-heading"><span class="topic-num">${numLabel(index)} —</span><strong>${topic.name}</strong></div>
-            <p class="topic-desc">${topic.desc}</p>
-          </div>
-        </header>
-        <div class="topic-sliders">
-          ${scopeLabel('own', topic.own)}
-          ${scopeLabel('others', topic.others)}
-          ${slider('Own feeling, ' + topic.name, `own-${index + 1}`)}
-          ${slider('Others feeling, ' + topic.name, `others-${index + 1}`)}
-        </div>
-      </section>
-    `).join('');
-
-    if (window.lucide) {
-      lucide.createIcons();
+    function renderTopics() {
+      const topics = t('topics');
+      const rows = document.querySelector('#rows');
+      rows.innerHTML = topics.map((topic, index) => {
+        const meta = topicMeta[index];
+        return `
+          <section class="topic-row" role="group" aria-label="${t('topic.row_aria')(index + 1, topic.name)}" style="animation-delay:${index * 40}ms">
+            <header class="topic-header">
+              <div class="icon-tile ${meta.color}" aria-hidden="true"><i data-lucide="${meta.icon}"></i></div>
+              <div>
+                <div class="topic-heading"><span class="topic-num">${numLabel(index)} —</span><strong>${topic.name}</strong></div>
+                <p class="topic-desc">${topic.desc}</p>
+              </div>
+            </header>
+            <div class="topic-sliders">
+              ${scopeLabel('own', topic.own)}
+              ${scopeLabel('others', topic.others)}
+              ${slider(t('scope.own.aria')(topic.name),    `own-${index + 1}`)}
+              ${slider(t('scope.others.aria')(topic.name), `others-${index + 1}`)}
+            </div>
+          </section>`;
+      }).join('');
     }
 
-    document.querySelectorAll('.slider-cell').forEach(cell => {
-      const input  = cell.querySelector('input');
-      const bubble = cell.querySelector('.value-bubble');
-      const mood   = cell.querySelector('.mood');
-      const state  = cell.querySelector('[aria-live]');
-      const update = () => {
-        const v = Number(input.value);
-        const pct = (v + 2) / 4; // 0..1
-        const rating = ratings[input.value];
-        cell.style.setProperty('--pct', pct);
-        bubble.textContent = input.value;
-        mood.innerHTML = `<i data-lucide="${rating.icon}"></i>`;
-        if (window.lucide) lucide.createIcons();
-        mood.className = `mood ${rating.moodClass}`;
-        input.setAttribute('aria-valuetext', `${rating.label} (${input.value})`);
-        state.textContent = `Current value: ${input.value}, ${rating.label}`;
-      };
-      input.addEventListener('input', update);
-      update();
-    });
+    function bindSliders() {
+      document.querySelectorAll('.slider-cell').forEach(cell => {
+        const input  = cell.querySelector('input');
+        const bubble = cell.querySelector('.value-bubble');
+        const mood   = cell.querySelector('.mood');
+        const state  = cell.querySelector('[aria-live]');
+        const update = () => {
+          const v = Number(input.value);
+          const pct = (v + 2) / 4;
+          const m = moodMeta[input.value];
+          const ratingLabel = t(`rating.${input.value}`);
+          cell.style.setProperty('--pct', pct);
+          bubble.textContent = input.value;
+          mood.innerHTML = `<i data-lucide="${m.icon}"></i>`;
+          if (window.lucide) lucide.createIcons();
+          mood.className = `mood ${m.moodClass}`;
+          input.setAttribute('aria-valuetext', t('slider.aria_value')(ratingLabel, input.value));
+          state.textContent = t('slider.live_state')(input.value, ratingLabel);
+        };
+        input.addEventListener('input', update);
+        update();
+      });
+    }
 
     /* ---- Comparison section ---- */
     // Fictional population distributions: [%-2, %-1, %0, %1, %2] per topic, per scope.
-    // Each array sums to 100. Replace with real survey data when available.
     const populationData = [
-      { own: [ 6, 14, 28, 36, 16], others: [10, 22, 32, 26, 10] }, // Trust
-      { own: [ 8, 18, 30, 30, 14], others: [12, 24, 30, 24, 10] }, // Security
-      { own: [ 5, 12, 26, 38, 19], others: [ 8, 18, 34, 28, 12] }, // Self-esteem
-      { own: [ 4, 10, 24, 40, 22], others: [ 9, 20, 30, 28, 13] }, // Social support
-      { own: [ 3,  9, 22, 42, 24], others: [ 7, 17, 28, 32, 16] }, // Empathy
-      { own: [ 7, 16, 30, 32, 15], others: [11, 22, 32, 24, 11] }, // Physical needs
-      { own: [ 5, 13, 24, 38, 20], others: [10, 20, 30, 28, 12] }, // Physical Health
-      { own: [10, 20, 28, 28, 14], others: [14, 26, 30, 22,  8] }, // Mental Health
-      { own: [ 6, 14, 30, 34, 16], others: [ 9, 20, 34, 26, 11] }, // Meaning and Coherence
-      { own: [ 8, 18, 30, 30, 14], others: [12, 22, 32, 24, 10] }, // Participation
-      { own: [ 9, 19, 28, 30, 14], others: [13, 24, 30, 23, 10] }, // Justice
-      { own: [ 5, 13, 28, 36, 18], others: [ 9, 20, 32, 28, 11] }, // Belonging
+      { own: [ 6, 14, 28, 36, 16], others: [10, 22, 32, 26, 10] },
+      { own: [ 8, 18, 30, 30, 14], others: [12, 24, 30, 24, 10] },
+      { own: [ 5, 12, 26, 38, 19], others: [ 8, 18, 34, 28, 12] },
+      { own: [ 4, 10, 24, 40, 22], others: [ 9, 20, 30, 28, 13] },
+      { own: [ 3,  9, 22, 42, 24], others: [ 7, 17, 28, 32, 16] },
+      { own: [ 7, 16, 30, 32, 15], others: [11, 22, 32, 24, 11] },
+      { own: [ 5, 13, 24, 38, 20], others: [10, 20, 30, 28, 12] },
+      { own: [10, 20, 28, 28, 14], others: [14, 26, 30, 22,  8] },
+      { own: [ 6, 14, 30, 34, 16], others: [ 9, 20, 34, 26, 11] },
+      { own: [ 8, 18, 30, 30, 14], others: [12, 22, 32, 24, 10] },
+      { own: [ 9, 19, 28, 30, 14], others: [13, 24, 30, 23, 10] },
+      { own: [ 5, 13, 28, 36, 18], others: [ 9, 20, 32, 28, 11] }
     ];
 
-    const ratingKeys = ['-2', '-1', '0', '1', '2'];
-    const ratingLabels = ['Very negative', 'Negative', 'Indifferent', 'Positive', 'Very positive'];
-
     function stackedBar(dist, ownValue) {
-      // Marker x = center of the segment for the user's value, in % of bar width.
       const idx = Number(ownValue) + 2;
       let cumulative = 0;
       for (let i = 0; i < idx; i++) cumulative += dist[i];
       const markerPct = cumulative + dist[idx] / 2;
       const segs = dist.map((p, i) => {
-        const label = ratingLabels[i];
-        return `<div class="bar-seg s-${i - 2}" style="width:${p}%" title="${label}: ${p}%"></div>`;
+        const label = t(`rating.${i - 2}`);
+        return `<div class="bar-seg s-${i - 2}" style="width:${p}%" title="${t('comparison.seg_title')(label, p)}"></div>`;
       }).join('');
       return `
         <div class="chart-wrap">
-          <div class="stacked-bar" role="img" aria-label="Population distribution">${segs}</div>
-          <div class="own-marker" style="left:${markerPct}%" data-label="you"></div>
+          <div class="stacked-bar" role="img" aria-label="${t('a11y.population_dist')}">${segs}</div>
+          <div class="own-marker" style="left:${markerPct}%" data-label="${t('comparison.you')}"></div>
         </div>`;
     }
 
-    const compareRows = document.querySelector('#comparison-rows');
-    compareRows.innerHTML = topics.map((topic, index) => {
-      const ownVal = document.querySelector(`#own-${index + 1}`).value;
-      const othersVal = document.querySelector(`#others-${index + 1}`).value;
-      const data = populationData[index];
-      return `
-        <div class="compare-row" role="group" aria-label="${index + 1}. ${topic.name} comparison" style="animation-delay:${index * 30}ms">
-          <div class="topic">
-            <div class="icon-tile ${topic.color}" aria-hidden="true"><i data-lucide="${topic.icon}"></i></div>
-            <div class="topic-title"><span>${numLabel(index)}</span><strong>${topic.name}</strong></div>
-          </div>
-          <div class="chart-cell" data-scope="Own" data-index="${index}" data-scope-key="own">${stackedBar(data.own, ownVal)}</div>
-          <div class="chart-cell" data-scope="Others" data-index="${index}" data-scope-key="others">${stackedBar(data.others, othersVal)}</div>
-        </div>`;
-    }).join('');
+    function renderComparison() {
+      const topics = t('topics');
+      const compareRows = document.querySelector('#comparison-rows');
+      compareRows.innerHTML = topics.map((topic, index) => {
+        const ownInput = document.querySelector(`#own-${index + 1}`);
+        const othersInput = document.querySelector(`#others-${index + 1}`);
+        const ownVal = ownInput ? ownInput.value : '0';
+        const othersVal = othersInput ? othersInput.value : '0';
+        const data = populationData[index];
+        const meta = topicMeta[index];
+        return `
+          <div class="compare-row" role="group" aria-label="${t('comparison.row_aria')(index + 1, topic.name)}" style="animation-delay:${index * 30}ms">
+            <div class="topic">
+              <div class="icon-tile ${meta.color}" aria-hidden="true"><i data-lucide="${meta.icon}"></i></div>
+              <div class="topic-title"><span>${numLabel(index)}</span><strong>${topic.name}</strong></div>
+            </div>
+            <div class="chart-cell" data-scope="${t('comparison.scope_own')}" data-index="${index}" data-scope-key="own">${stackedBar(data.own, ownVal)}</div>
+            <div class="chart-cell" data-scope="${t('comparison.scope_others')}" data-index="${index}" data-scope-key="others">${stackedBar(data.others, othersVal)}</div>
+          </div>`;
+      }).join('');
+    }
 
-    if (window.lucide) lucide.createIcons();
-
-    // Keep markers in sync as the user adjusts sliders.
     function refreshMarkers() {
       document.querySelectorAll('.chart-cell').forEach(cell => {
         const idx = Number(cell.dataset.index);
         const scope = cell.dataset.scopeKey;
         const input = document.querySelector(`#${scope}-${idx + 1}`);
+        if (!input) return;
         const dist = populationData[idx][scope];
         const valueIdx = Number(input.value) + 2;
         let cumulative = 0;
@@ -1799,39 +2094,19 @@
         if (marker) marker.style.left = `${markerPct}%`;
       });
     }
-    document.querySelectorAll('#rows input[type="range"]').forEach(input => {
-      input.addEventListener('input', refreshMarkers);
-    });
 
     /* ---- Scenario switching ---- */
-    // Each scenario has a quote (shown in the scenario card) and an intro question
-    // (shown above the driver cards). Slider answers are persisted per scenario so
-    // toggling tabs restores the right values.
-    const scenarios = [
-      {
-        label: 'General',
-        quote: 'Your general life over the past two weeks.',
-        intro: 'How do you generally feel about each of the following?',
-        help: 'For each topic, rate how it affects you personally, and how you think it affects others in your community.'
-      },
-      {
-        label: 'Bridge closure',
-        quote: 'The Nordsund bridge suddenly closes due to strong winds on a Tuesday morning, and stays closed for 24 hours.',
-        intro: 'Given this scenario, how do you perceive yourself on the following?',
-        help: 'For each topic, rate how the situation affects you personally, and how you think it affects others in your community.'
-      }
-    ];
-
-    const sliderInputs = Array.from(document.querySelectorAll('#rows input[type="range"]'));
-    // answersByScenario[scenarioIndex][inputId] = numeric value
-    const answersByScenario = scenarios.map(() => Object.create(null));
     let activeScenario = 0;
+    /* answersByScenario[scenarioIndex][inputId] = numeric value */
+    const answersByScenario = [Object.create(null), Object.create(null)];
 
     function captureAnswers(idx) {
-      sliderInputs.forEach(input => { answersByScenario[idx][input.id] = input.value; });
+      document.querySelectorAll('#rows input[type="range"]').forEach(input => {
+        answersByScenario[idx][input.id] = input.value;
+      });
     }
     function restoreAnswers(idx) {
-      sliderInputs.forEach(input => {
+      document.querySelectorAll('#rows input[type="range"]').forEach(input => {
         const saved = answersByScenario[idx][input.id];
         const next = saved !== undefined ? saved : '0';
         if (input.value !== next) {
@@ -1841,50 +2116,90 @@
       });
     }
 
-    // Seed scenario 0 with the current (default) slider values.
-    captureAnswers(0);
-
-    // Keep the active scenario's answers fresh as the user moves sliders.
-    sliderInputs.forEach(input => {
-      input.addEventListener('input', () => {
-        answersByScenario[activeScenario][input.id] = input.value;
-      });
-    });
-
-    const scenarioQuote = document.querySelector('#scenario-quote');
-    const surveyQuestion = document.querySelector('#survey-question');
-    const surveyHelp = document.querySelector('#survey-help');
-    const scenarioTabs = Array.from(document.querySelectorAll('.scenario-tab'));
-
-    function applyScenario(idx) {
-      const s = scenarios[idx];
-      scenarioQuote.classList.add('is-swapping');
-      window.setTimeout(() => {
+    function applyScenarioText(idx, animate = true) {
+      const s = t('scenarios')[idx];
+      const scenarioQuote = document.querySelector('#scenario-quote');
+      const surveyQuestion = document.querySelector('#survey-question');
+      const surveyHelp = document.querySelector('#survey-help');
+      const write = () => {
         scenarioQuote.querySelector('p').textContent = s.quote;
         surveyQuestion.textContent = s.intro;
         surveyHelp.textContent = s.help;
+      };
+      if (!animate) { write(); return; }
+      scenarioQuote.classList.add('is-swapping');
+      window.setTimeout(() => {
+        write();
         scenarioQuote.classList.remove('is-swapping');
       }, 200);
     }
 
-    scenarioTabs.forEach(tab => {
+    /* ---- Apply localized text to static HTML nodes ---- */
+
+    function applyStaticI18n() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const val = t(key);
+        if (typeof val === 'string') el.textContent = val;
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        const val = t(key);
+        if (typeof val === 'string') el.innerHTML = val;
+      });
+      /* data-i18n-attr="attrName:key, attrName2:key2" */
+      document.querySelectorAll('[data-i18n-attr]').forEach(el => {
+        el.getAttribute('data-i18n-attr').split(',').forEach(pair => {
+          const [attr, key] = pair.split(':').map(s => s.trim());
+          if (!attr || !key) return;
+          const val = t(key);
+          if (typeof val === 'string') el.setAttribute(attr, val);
+        });
+      });
+    }
+
+    /* ---- Initial render ---- */
+
+    document.documentElement.lang = lang === 'no' ? 'nb' : 'en';
+    applyStaticI18n();
+    renderTopics();
+    if (window.lucide) lucide.createIcons();
+    bindSliders();
+    renderComparison();
+    if (window.lucide) lucide.createIcons();
+
+    /* Keep population markers in sync as sliders move + keep the active scenario's
+       answers buffer up to date. Delegated to the rows container so it survives
+       re-renders triggered by language switches. */
+    document.querySelector('#rows').addEventListener('input', (e) => {
+      if (e.target.matches('input[type="range"]')) {
+        refreshMarkers();
+        answersByScenario[activeScenario][e.target.id] = e.target.value;
+      }
+    });
+
+    // Seed scenario 0 with default values, and set scenario 0's quote/intro.
+    captureAnswers(0);
+    applyScenarioText(0, false);
+
+    document.querySelectorAll('.scenario-tab').forEach(tab => {
       tab.addEventListener('click', () => {
         const next = Number(tab.dataset.scenario);
         if (next === activeScenario) return;
         captureAnswers(activeScenario);
         activeScenario = next;
-        scenarioTabs.forEach(t => {
+        document.querySelectorAll('.scenario-tab').forEach(t => {
           const isActive = Number(t.dataset.scenario) === next;
           t.classList.toggle('is-active', isActive);
           t.setAttribute('aria-selected', isActive ? 'true' : 'false');
         });
-        applyScenario(next);
+        applyScenarioText(next);
         restoreAnswers(next);
         refreshMarkers();
       });
     });
 
-    // Reveal toggle.
+    /* ---- Comparison reveal toggle ---- */
     const revealBtn = document.querySelector('#reveal-comparison');
     const comparisonBody = document.querySelector('#comparison-body');
     revealBtn.addEventListener('click', () => {
@@ -1892,12 +2207,56 @@
       if (isHidden) {
         comparisonBody.removeAttribute('hidden');
         revealBtn.setAttribute('aria-expanded', 'true');
-        revealBtn.textContent = 'Hide comparison';
+        revealBtn.textContent = t('comparison.hide');
         refreshMarkers();
       } else {
         comparisonBody.setAttribute('hidden', '');
         revealBtn.setAttribute('aria-expanded', 'false');
-        revealBtn.textContent = 'Reveal comparison';
+        revealBtn.textContent = t('comparison.reveal');
+      }
+    });
+
+    /* ---- Language switch ----
+       Re-renders driver cards + comparison rows, then re-applies the active
+       scenario's quote/intro and restores the slider values for the active
+       scenario. Slider answers persist across language changes because they
+       live in answersByScenario, keyed by input id (which doesn't depend on
+       language). */
+    function setLang(next) {
+      if (next === lang || !i18n[next]) return;
+      // Save current slider values before tearing down the rows.
+      captureAnswers(activeScenario);
+      lang = next;
+      try { localStorage.setItem('scs-lang', next); } catch (e) { /* private mode */ }
+      document.documentElement.lang = next === 'no' ? 'nb' : 'en';
+      applyStaticI18n();
+      renderTopics();
+      bindSliders();
+      renderComparison();
+      if (window.lucide) lucide.createIcons();
+      restoreAnswers(activeScenario);
+      refreshMarkers();
+      applyScenarioText(activeScenario, false);
+      // Reveal button is one of the few static buttons that needs special handling
+      // because its label depends on aria-expanded state, not just on data-i18n.
+      const expanded = revealBtn.getAttribute('aria-expanded') === 'true';
+      revealBtn.textContent = expanded ? t('comparison.hide') : t('comparison.reveal');
+      // Active state on the lang switcher.
+      document.querySelectorAll('.lang-btn').forEach(b => {
+        const isActive = b.dataset.lang === next;
+        b.classList.toggle('is-active', isActive);
+        b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => setLang(btn.dataset.lang));
+      if (btn.dataset.lang === lang) {
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-pressed', 'true');
+      } else {
+        btn.classList.remove('is-active');
+        btn.setAttribute('aria-pressed', 'false');
       }
     });
   </script>
