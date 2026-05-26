@@ -323,84 +323,118 @@
       line-height: 1.5;
     }
 
-    .columns-head {
-      display: grid;
-      grid-template-columns: 315px 1fr 1fr;
-      align-items: center;
-      padding: 10px 14px 20px;
-    }
-
-    .scope-title {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      justify-content: center;
-      min-height: 66px;
-      border-left: 1px solid transparent;
-    }
-
-    .scope-title + .scope-title {
-      border-left-color: var(--line);
-    }
-
     .scope-badge {
-      width: 54px;
-      height: 54px;
+      width: 36px;
+      height: 36px;
       display: grid;
       place-items: center;
       flex: 0 0 auto;
       border-radius: 50%;
     }
 
-    .scope-title strong {
-      display: block;
-      font-size: 18px;
-      margin-bottom: 5px;
-    }
-
-    .scope-title span {
-      color: var(--muted);
-      font-size: 15px;
+    .scope-badge svg {
+      width: 22px;
+      height: 22px;
     }
 
     .rows {
-      padding: 0 14px 12px;
+      padding: 4px 14px 12px;
+      display: grid;
+      gap: 18px;
     }
 
     .topic-row {
       display: grid;
-      grid-template-columns: 315px 1fr 1fr;
-      align-items: stretch;
-      min-height: 103px;
+      grid-template-rows: auto auto;
       border: 1px solid var(--line);
-      border-radius: 9px;
+      border-radius: 12px;
       background: #fff;
       overflow: hidden;
+      box-shadow: 0 2px 10px rgba(31, 45, 93, .03);
     }
 
-    .topic-row + .topic-row {
-      margin-top: -1px;
-    }
-
-    .topic {
+    .topic-header {
       display: grid;
       grid-template-columns: 62px 1fr;
       gap: 20px;
-      align-items: center;
-      padding: 17px 16px;
+      align-items: flex-start;
+      padding: 18px 22px 16px;
+      background: linear-gradient(180deg, #fbfcff 0%, #ffffff 100%);
+      border-bottom: 1px solid var(--soft-line);
+    }
+
+    .topic-heading {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      min-width: 0;
       font-weight: 730;
     }
 
-    .topic-title {
-      display: flex;
-      align-items: baseline;
-      gap: 16px;
-      min-width: 0;
+    .topic-heading .topic-num {
+      flex: 0 0 auto;
+      color: var(--muted);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
     }
 
-    .topic-title span {
-      flex: 0 0 auto;
-      font-weight: 760;
+    .topic-heading strong {
+      font-size: 19px;
+      letter-spacing: 0;
+    }
+
+    .topic-desc {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14.5px;
+      line-height: 1.5;
+      max-width: 78ch;
+    }
+
+    .topic-sliders {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .scope-label {
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      column-gap: 10px;
+      row-gap: 4px;
+      align-items: center;
+      padding: 12px 22px 0 34px;
+      color: var(--muted);
+    }
+
+    .scope-label + .scope-label {
+      border-left: 1px solid var(--line);
+    }
+
+    .scope-label .scope-badge {
+      width: 26px;
+      height: 26px;
+      grid-row: 1 / span 2;
+    }
+
+    .scope-label .scope-badge svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .scope-name {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .scope-hint {
+      grid-column: 2;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.45;
+      color: var(--muted);
     }
 
     .icon-tile {
@@ -419,9 +453,12 @@
 
     .slider-cell {
       position: relative;
-      padding: 24px 22px 14px 34px;
-      border-left: 1px solid var(--line);
+      padding: 22px 22px 18px 34px;
       --thumb-size: 22px;
+    }
+
+    .topic-sliders > .slider-cell + .slider-cell {
+      border-left: 1px solid var(--line);
     }
 
     .slider-cell:focus-within {
@@ -747,7 +784,25 @@
     }
 
     .compare-row .topic {
+      display: grid;
+      grid-template-columns: 50px 1fr;
+      gap: 16px;
+      align-items: center;
       padding: 10px 16px;
+      font-weight: 730;
+    }
+
+    .compare-row .topic-title {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .compare-row .topic-title span {
+      flex: 0 0 auto;
+      color: var(--muted);
+      font-weight: 700;
     }
 
     .compare-row .icon-tile {
@@ -870,10 +925,18 @@
       }
       .hero-ribbon span { font-size: 9px; }
 
-      .columns-head,
-      .topic-row,
+      .topic-sliders,
       .compare-row {
         grid-template-columns: 1fr;
+      }
+
+      .topic-sliders > .slider-cell + .slider-cell {
+        border-left: 0;
+        border-top: 1px solid var(--soft-line);
+      }
+
+      .scope-label + .scope-label {
+        border-left: 0;
       }
 
       .compare-row + .compare-row {
@@ -905,35 +968,17 @@
         flex-direction: column;
       }
 
-      .columns-head {
-        display: none;
-      }
-
-      .topic-row {
-        min-height: 0;
-      }
-
-      .topic-row + .topic-row {
-        margin-top: 12px;
-      }
-
       .slider-cell {
-        border-left: 0;
-        border-top: 1px solid var(--soft-line);
         padding-inline: 24px;
       }
 
-      .slider-cell::before {
-        content: attr(data-title);
-        display: block;
-        margin-bottom: 10px;
-        color: var(--muted);
-        font-size: 13px;
-        font-weight: 760;
+      .topic-header {
+        grid-template-columns: 54px 1fr;
+        padding: 16px 18px 14px;
       }
 
-      .topic {
-        grid-template-columns: 54px 1fr;
+      .scope-label {
+        padding-left: 24px;
       }
     }
 
@@ -1006,30 +1051,6 @@
           <p id="survey-help">For each topic, rate how you feel it affects you personally, and how you think it affects others in your community or society in general.</p>
         </div>
 
-        <div class="columns-head">
-          <div></div>
-          <div class="scope-title">
-            <div class="scope-badge c-violet">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                <circle cx="16" cy="10" r="5" stroke="currentColor" stroke-width="2.4"/>
-                <path d="M7 27v-4c0-5 4-8 9-8s9 3 9 8v4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div><strong>Own (feeling)</strong><span>How does this affect you?</span></div>
-          </div>
-          <div class="scope-title">
-            <div class="scope-badge c-green">
-              <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
-                <circle cx="17" cy="10" r="4" stroke="currentColor" stroke-width="2.3"/>
-                <circle cx="8" cy="14" r="3" stroke="currentColor" stroke-width="2.3"/>
-                <circle cx="26" cy="14" r="3" stroke="currentColor" stroke-width="2.3"/>
-                <path d="M10 25v-3c0-4 3-6 7-6s7 2 7 6v3M3 24v-2c0-3 2-5 5-5M31 24v-2c0-3-2-5-5-5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div><strong>Others (feeling)</strong><span>How do you think this affects others?</span></div>
-          </div>
-        </div>
-
         <div class="rows" id="rows" aria-labelledby="survey-question" aria-describedby="survey-help"></div>
 
         <div class="footer">
@@ -1069,19 +1090,94 @@
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script>
     const topics = [
-      ['Trust', 'handshake', 'c-violet'],
-      ['Security', 'shield-check', 'c-blue'],
-      ['Self-esteem', 'award', 'c-rose'],
-      ['Social support', 'hand-heart', 'c-orange'],
-      ['Empathy', 'heart-handshake', 'c-rose'],
-      ['Physical needs', 'bed-single', 'c-orange'],
-      ['Physical Health', 'heart-pulse', 'c-green'],
-      ['Mental Health', 'brain', 'c-blue'],
-      ['Meaning and Coherence', 'compass', 'c-violet'],
-      ['Participation and inclusion', 'users-round', 'c-green'],
-      ['Justice and non-discrimination', 'scale', 'c-blue'],
-      ['Belonging and identity', 'circle-user-round', 'c-violet']
+      {
+        name: 'Trust', icon: 'handshake', color: 'c-violet',
+        desc: 'Trust that institutions and community members act reliably and in the common interest.',
+        own: 'How much I trust institutions and people around me to act in my and the community’s interest.',
+        others: 'How much the community trusts institutions and each other.'
+      },
+      {
+        name: 'Security', icon: 'shield-check', color: 'c-blue',
+        desc: 'A sense of physical, psychological, and economic safety, free from threats or violence.',
+        own: 'How safe I feel physically, financially, and psychologically in daily life.',
+        others: 'How free the community is from crime, hazards, and economic shocks — and how well protective systems work.'
+      },
+      {
+        name: 'Self-esteem', icon: 'award', color: 'c-rose',
+        desc: 'Feeling valued, confident, and capable as an individual.',
+        own: 'My sense of worth, confidence, dignity, and ability to influence my own life.',
+        others: 'How much community norms, narratives, and institutions affirm the dignity of all members.'
+      },
+      {
+        name: 'Social support', icon: 'hand-heart', color: 'c-orange',
+        desc: 'Access to practical and emotional help from family, friends, and the community.',
+        own: 'Whether I can count on family, friends, neighbors, and colleagues for help and support when needed.',
+        others: 'Strength and accessibility of support networks and services (e.g. community centers, volunteering, mutual aid).'
+      },
+      {
+        name: 'Empathy', icon: 'heart-handshake', color: 'c-rose',
+        desc: 'Experiencing and showing understanding, care, and compassion within the community.',
+        own: 'How much I feel understood, respected, and cared for — and how I practice empathy toward others.',
+        others: 'The prevailing culture of compassion and perspective-taking in public life and everyday interactions.'
+      },
+      {
+        name: 'Physical needs', icon: 'bed-single', color: 'c-orange',
+        desc: 'Reliable access to essentials such as clean air, food, water, shelter, clothing, and rest.',
+        own: 'Whether my basic needs — clean air, food, water, shelter, clothing, and rest — are reliably met.',
+        others: 'Infrastructure, policies, and services that ensure universal access to essentials.'
+      },
+      {
+        name: 'Physical Health', icon: 'heart-pulse', color: 'c-green',
+        desc: 'Energy, mobility, and the physical ability to function well in daily life.',
+        own: 'My physical functioning, fitness, and ability to perform daily activities free from disease or pain.',
+        others: 'Population health and health-promoting environments (safe streets, active transport, green spaces, access to care).'
+      },
+      {
+        name: 'Mental Health', icon: 'brain', color: 'c-blue',
+        desc: 'Emotional balance, resilience, and cognitive functioning such as focus and stress management.',
+        own: 'My emotional well-being, resilience, stress levels, and cognitive functioning.',
+        others: 'Prevalence of psychological well-being and access to mental health support across the community.'
+      },
+      {
+        name: 'Meaning and Coherence', icon: 'compass', color: 'c-violet',
+        desc: 'A sense of purpose, direction, and understanding of one’s life context.',
+        own: 'My clarity of purpose, sense that life is meaningful, and that my experiences fit together coherently.',
+        others: 'Shared narratives, cultural life, and institutions that make the city feel like it "makes sense".'
+      },
+      {
+        name: 'Participation and inclusion', icon: 'users-round', color: 'c-green',
+        desc: 'Being able to take part in public life and feeling included in community spaces and processes.',
+        own: 'My ability to be heard, take part in decisions, and access public spaces and services without barriers.',
+        others: 'Openness and fairness of civic processes, and diversity of representation in decision-making.'
+      },
+      {
+        name: 'Justice and non-discrimination', icon: 'scale', color: 'c-blue',
+        desc: 'Fair treatment and equal opportunities, free from bias or exclusion.',
+        own: 'Whether I am treated fairly regardless of identity or status and have equal access to rights and opportunities.',
+        others: 'How fairly rules are applied across the community, and the level of disparities and anti-discrimination norms in institutions.'
+      },
+      {
+        name: 'Belonging and identity', icon: 'circle-user-round', color: 'c-violet',
+        desc: 'Feeling connected to others with shared values, and identifying with the community.',
+        own: 'Feeling accepted, seen, and connected to place, culture, and communities; pride in who I am.',
+        others: 'Strength of social cohesion and inclusive identities that bridge differences across groups and neighborhoods.'
+      }
     ];
+
+    const scopeMeta = {
+      own: {
+        label: 'Own',
+        sub: 'Individual',
+        cls: 'c-violet',
+        svg: '<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="10" r="5" stroke="currentColor" stroke-width="2.4"/><path d="M7 27v-4c0-5 4-8 9-8s9 3 9 8v4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>'
+      },
+      others: {
+        label: 'Others',
+        sub: 'Communal',
+        cls: 'c-green',
+        svg: '<svg viewBox="0 0 34 34" fill="none"><circle cx="17" cy="10" r="4" stroke="currentColor" stroke-width="2.3"/><circle cx="8" cy="14" r="3" stroke="currentColor" stroke-width="2.3"/><circle cx="26" cy="14" r="3" stroke="currentColor" stroke-width="2.3"/><path d="M10 25v-3c0-4 3-6 7-6s7 2 7 6v3M3 24v-2c0-3 2-5 5-5M31 24v-2c0-3-2-5-5-5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></svg>'
+      }
+    };
 
     const rows = document.querySelector('#rows');
 
@@ -1092,6 +1188,16 @@
        '1': { label: 'Positive',      moodClass: 'is-positive',      icon: 'smile' },
        '2': { label: 'Very positive', moodClass: 'is-very-positive', icon: 'laugh' }
     };
+
+    function scopeLabel(scope, hint) {
+      const m = scopeMeta[scope];
+      return `
+        <div class="scope-label">
+          <span class="scope-badge ${m.cls}" aria-hidden="true">${m.svg}</span>
+          <span class="scope-name">${m.label} <span style="opacity:.7;font-weight:600">· ${m.sub}</span></span>
+          <span class="scope-hint">${hint}</span>
+        </div>`;
+    }
 
     function slider(name, id) {
       return `
@@ -1115,14 +1221,21 @@
     }
 
     rows.innerHTML = topics.map((topic, index) => `
-      <div class="topic-row" role="group" aria-label="${index + 1}. ${topic[0]}">
-        <div class="topic">
-          <div class="icon-tile ${topic[2]}" aria-hidden="true"><i data-lucide="${topic[1]}"></i></div>
-          <div class="topic-title"><span>${index + 1}.</span><strong>${topic[0]}</strong></div>
+      <section class="topic-row" role="group" aria-label="${index + 1}. ${topic.name}">
+        <header class="topic-header">
+          <div class="icon-tile ${topic.color}" aria-hidden="true"><i data-lucide="${topic.icon}"></i></div>
+          <div>
+            <div class="topic-heading"><span class="topic-num">${index + 1}.</span><strong>${topic.name}</strong></div>
+            <p class="topic-desc">${topic.desc}</p>
+          </div>
+        </header>
+        <div class="topic-sliders">
+          ${scopeLabel('own', topic.own)}
+          ${scopeLabel('others', topic.others)}
+          ${slider('Own feeling, ' + topic.name, `own-${index + 1}`)}
+          ${slider('Others feeling, ' + topic.name, `others-${index + 1}`)}
         </div>
-        ${slider('Own feeling, ' + topic[0], `own-${index + 1}`)}
-        ${slider('Others feeling, ' + topic[0], `others-${index + 1}`)}
-      </div>
+      </section>
     `).join('');
 
     if (window.lucide) {
@@ -1194,10 +1307,10 @@
       const othersVal = document.querySelector(`#others-${index + 1}`).value;
       const data = populationData[index];
       return `
-        <div class="compare-row" role="group" aria-label="${index + 1}. ${topic[0]} comparison">
+        <div class="compare-row" role="group" aria-label="${index + 1}. ${topic.name} comparison">
           <div class="topic">
-            <div class="icon-tile ${topic[2]}" aria-hidden="true"><i data-lucide="${topic[1]}"></i></div>
-            <div class="topic-title"><span>${index + 1}.</span><strong>${topic[0]}</strong></div>
+            <div class="icon-tile ${topic.color}" aria-hidden="true"><i data-lucide="${topic.icon}"></i></div>
+            <div class="topic-title"><span>${index + 1}.</span><strong>${topic.name}</strong></div>
           </div>
           <div class="chart-cell" data-scope="Own" data-index="${index}" data-scope-key="own">${stackedBar(data.own, ownVal)}</div>
           <div class="chart-cell" data-scope="Others" data-index="${index}" data-scope-key="others">${stackedBar(data.others, othersVal)}</div>
