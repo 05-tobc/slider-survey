@@ -6,7 +6,7 @@
   <title>SCS Survey Prototype</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
   <style>
     :root {
       --ink: #181a1d;
@@ -26,7 +26,7 @@
       --slate: #4a5566;
       --plum: #6b3a52;
       --shadow: 0 1px 0 rgba(24, 26, 29, .04), 0 22px 60px rgba(24, 26, 29, .06);
-      --serif: "Fraunces", "Iowan Old Style", Georgia, "Times New Roman", serif;
+      --serif: "Newsreader", "Iowan Old Style", Georgia, "Times New Roman", serif;
       --sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
       --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
       font-family: var(--sans);
@@ -55,7 +55,6 @@
       background-size: 22px 22px;
       background-position: 0 0;
       min-width: 320px;
-      font-feature-settings: "ss01", "cv11";
     }
 
     button {
@@ -424,7 +423,7 @@
       line-height: 1.05;
       letter-spacing: -0.02em;
       font-weight: 500;
-      font-variation-settings: "opsz" 96, "SOFT" 30;
+      font-variation-settings: "opsz" 72;
       color: var(--ink);
     }
 
@@ -432,7 +431,7 @@
       font-style: italic;
       font-weight: 400;
       color: var(--accent-deep);
-      font-variation-settings: "opsz" 96, "SOFT" 60;
+      font-variation-settings: "opsz" 72;
     }
 
     .hero p {
@@ -472,33 +471,18 @@
       line-height: 1;
     }
 
-    /* Scenario card — frames the questions below with a specific premise. */
-    .scenario {
+    /* Scenario picker — two (or more) equal cards. The chosen one frames
+       the survey below. Lives between the hero and the survey, treated as
+       the page's primary organising control. */
+    .scenario-picker {
       margin-top: 18px;
-      border: 1px solid var(--line);
-      border-radius: 2px;
-      background: var(--paper);
-      padding: 22px 32px 26px;
-      position: relative;
-      overflow: hidden;
     }
 
-    .scenario::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 3px;
-      background: var(--accent);
-    }
-
-    .scenario-head {
+    .scenario-picker-head {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 14px;
+      gap: 14px;
+      padding: 0 4px 14px;
     }
 
     .scenario-eyebrow {
@@ -519,87 +503,140 @@
       background: var(--accent);
     }
 
-    .scenario-tabs {
-      display: inline-flex;
-      gap: 0;
-      border: 1px solid var(--ink);
+    .scenario-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+    }
+
+    .scenario-card {
+      position: relative;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 12px;
+      padding: 22px 24px 20px;
+      border: 1px solid var(--line);
       border-radius: 2px;
+      background: var(--paper);
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+      color: inherit;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
       overflow: hidden;
     }
 
-    .scenario-tab {
-      appearance: none;
-      border: 0;
-      background: transparent;
-      color: var(--ink);
-      font-family: var(--sans);
-      font-size: 12.5px;
+    .scenario-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--line);
+      transition: background 0.2s ease;
+    }
+
+    .scenario-card:hover {
+      border-color: var(--ink-soft);
+    }
+
+    .scenario-card.is-active {
+      border-color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(184, 80, 31, 0.045), transparent 55%),
+        var(--paper);
+    }
+
+    .scenario-card.is-active::before {
+      background: var(--accent);
+    }
+
+    .scenario-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 10.5px;
       font-weight: 500;
-      letter-spacing: 0.02em;
-      height: 32px;
-      padding: 0 16px;
-      cursor: pointer;
-      transition: background 0.18s ease, color 0.18s ease;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
     }
 
-    .scenario-tab + .scenario-tab {
-      border-left: 1px solid var(--ink);
+    .scenario-card-state {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted-2);
+      font-family: var(--mono);
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
 
-    .scenario-tab:hover {
-      background: color-mix(in srgb, var(--accent-soft) 50%, transparent);
+    .scenario-card.is-active .scenario-card-state {
+      color: var(--accent-deep);
     }
 
-    .scenario-tab.is-active {
-      background: var(--ink);
-      color: var(--paper);
+    .scenario-card-state .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.4;
     }
 
-    .scenario-quote {
-      margin: 0;
-      padding: 0;
+    .scenario-card.is-active .scenario-card-state .dot {
+      opacity: 1;
+    }
+
+    .scenario-card-title {
+      margin: 2px 0 0;
       font-family: var(--serif);
-      font-size: clamp(20px, 2.4vw, 26px);
-      font-style: italic;
-      font-weight: 400;
-      line-height: 1.35;
-      letter-spacing: -0.005em;
+      font-size: clamp(22px, 2.2vw, 26px);
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      font-weight: 500;
+      font-variation-settings: "opsz" 48;
       color: var(--ink);
-      font-variation-settings: "opsz" 48, "SOFT" 50;
-      max-width: 60ch;
     }
 
-    .scenario-quote p {
+    .scenario-card-quote {
+      margin: 0;
+      color: var(--ink-soft);
+      font-family: var(--serif);
+      font-size: 16px;
+      font-style: italic;
+      line-height: 1.45;
+      font-variation-settings: "opsz" 24;
+      max-width: 48ch;
+    }
+
+    .scenario-card-quote p {
       margin: 0;
       position: relative;
     }
 
-    .scenario-quote p::before {
+    .scenario-card-quote p::before {
       content: "“";
-      position: absolute;
-      left: -0.55em;
-      top: -0.05em;
-      font-size: 1.4em;
       color: var(--accent);
       font-style: normal;
-      line-height: 1;
+      margin-right: 0.05em;
     }
 
-    .scenario-quote p::after {
+    .scenario-card-quote p::after {
       content: "”";
-      margin-left: 0.05em;
       color: var(--accent);
       font-style: normal;
+      margin-left: 0.05em;
     }
 
-    /* Subtle crossfade when scenarios swap */
-    .scenario-quote.is-swapping {
-      opacity: 0;
-      transform: translateY(-3px);
-    }
-
-    .scenario-quote {
-      transition: opacity 0.22s ease, transform 0.22s ease;
+    .scenario-card:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
     }
 
     .survey {
@@ -1556,35 +1593,31 @@
           <div class="sat bl"><i data-lucide="users-round"></i></div>
         </div>
         <div>
-          <h1 data-i18n-html="hero.title">A baseline survey on <em>socio-cultural sustainability</em></h1>
-          <p data-i18n="hero.intro">This baseline survey helps us understand how people generally feel about key aspects of socio-cultural sustainability in everyday life.</p>
-          <div class="note">
-            <div class="note-icon">i</div>
-            <div data-i18n="hero.note">There are no right or wrong answers. Please respond based on your current feelings and perceptions.</div>
-          </div>
+          <h1 data-i18n-html="hero.title">How are things — for you, and for the place you live?</h1>
+          <p data-i18n="hero.intro">Twelve short questions about everyday life and the community around you. Choose a situation to answer under, and switch between them to see how your answers shift.</p>
         </div>
       </section>
 
-      <section class="scenario" aria-labelledby="scenario-label">
-        <div class="scenario-head">
-          <div class="scenario-eyebrow" id="scenario-label">
+      <section class="scenario-picker" aria-labelledby="scenario-picker-label">
+        <div class="scenario-picker-head">
+          <div class="scenario-eyebrow" id="scenario-picker-label">
             <span class="scenario-mark" aria-hidden="true"></span>
-            <span data-i18n="scenario.eyebrow">Scenario</span>
-          </div>
-          <div class="scenario-tabs" role="tablist" data-i18n-attr="aria-label:scenario.tabs_a11y" aria-label="Choose scenario">
-            <button type="button" class="scenario-tab is-active" role="tab" aria-selected="true" data-scenario="0" data-i18n="scenario.tab_general">General</button>
-            <button type="button" class="scenario-tab" role="tab" aria-selected="false" data-scenario="1" data-i18n="scenario.tab_bridge">Bridge closure</button>
+            <span data-i18n="scenario.eyebrow">Choose a situation</span>
           </div>
         </div>
-        <blockquote class="scenario-quote" id="scenario-quote">
-          <p>Your general life over the past two weeks.</p>
-        </blockquote>
+        <div class="scenario-cards" role="radiogroup" data-i18n-attr="aria-label:scenario.picker_a11y" aria-label="Choose a situation to answer under" id="scenario-cards">
+          <!-- cards rendered from i18n.scenarios -->
+        </div>
       </section>
 
       <section class="survey">
         <div class="survey-intro">
-          <h2 id="survey-question">Given this, how do you perceive yourself on the following?</h2>
-          <p id="survey-help">For each topic, rate how it affects you personally, and how you think it affects others in your community.</p>
+          <h2 id="survey-question">How true is each statement for you right now?</h2>
+          <p id="survey-help">For each driver, rate the statement about yourself, and the statement about your community.</p>
+          <div class="note">
+            <div class="note-icon">i</div>
+            <div data-i18n="hero.note">There are no right or wrong answers. Please respond based on your current feelings and perceptions.</div>
+          </div>
         </div>
 
         <div class="rows" id="rows" aria-labelledby="survey-question" aria-describedby="survey-help"></div>
@@ -1647,22 +1680,26 @@
         'hero.ribbon_a11y': 'Prototype notice',
         'hero.ribbon_main': 'Prototype',
         'hero.ribbon_sub': 'No data is stored',
-        'hero.title': 'A baseline survey on <em>socio-cultural sustainability</em>',
-        'hero.intro': 'This baseline survey helps us understand how people generally feel about key aspects of socio-cultural sustainability in everyday life.',
+        'hero.title': 'How are things — for you, and for the place you live?',
+        'hero.intro': 'Twelve short questions about everyday life and the community around you. Choose a situation to answer under, and switch between them to see how your answers shift.',
         'hero.note': 'There are no right or wrong answers. Please respond based on your current feelings and perceptions.',
 
-        'scenario.eyebrow': 'Scenario',
-        'scenario.tabs_a11y': 'Choose scenario',
-        'scenario.tab_general': 'General',
-        'scenario.tab_bridge': 'Bridge closure',
+        'scenario.eyebrow': 'Choose a situation',
+        'scenario.picker_a11y': 'Choose a situation to answer under',
+        'scenario.card_a11y': (name) => `Answer under ${name}`,
+        'scenario.card_num': (n) => `Situation ${n}`,
+        'scenario.active': 'Answering under this',
+        'scenario.select': 'Answer under this',
 
         'scenarios': [
           {
+            name:  'Everyday life',
             quote: 'Your general life over the past two weeks.',
             intro: 'How true is each statement for you right now?',
             help:  'For each driver, rate the statement about yourself, and the statement about your community.'
           },
           {
+            name:  'Bridge closure',
             quote: 'The Nordsund bridge suddenly closes due to strong winds on a Tuesday morning, and stays closed for 24 hours.',
             intro: 'After this happens, how true is each statement for you?',
             help:  'For each driver, rate the statement about yourself, and the statement about your community, in the context of this scenario.'
@@ -1801,22 +1838,26 @@
         'hero.ribbon_a11y': 'Prototypvarsel',
         'hero.ribbon_main': 'Prototype',
         'hero.ribbon_sub': 'Ingen data lagres',
-        'hero.title': 'En kartlegging av <em>sosiokulturell bærekraft</em>',
-        'hero.intro': 'Denne kartleggingen hjelper oss å forstå hvordan folk generelt opplever sentrale sider ved sosiokulturell bærekraft i hverdagen.',
+        'hero.title': 'Hvordan står det til — med deg, og med stedet du bor?',
+        'hero.intro': 'Tolv korte spørsmål om hverdagen og lokalsamfunnet rundt deg. Velg en situasjon å svare ut fra, og bytt mellom dem for å se hvordan svarene endrer seg.',
         'hero.note': 'Det finnes ingen riktige eller gale svar. Svar ut fra hvordan du føler og opplever det akkurat nå.',
 
-        'scenario.eyebrow': 'Scenario',
-        'scenario.tabs_a11y': 'Velg scenario',
-        'scenario.tab_general': 'Generelt',
-        'scenario.tab_bridge': 'Brustenging',
+        'scenario.eyebrow': 'Velg en situasjon',
+        'scenario.picker_a11y': 'Velg en situasjon å svare ut fra',
+        'scenario.card_a11y': (name) => `Svar ut fra ${name}`,
+        'scenario.card_num': (n) => `Situasjon ${n}`,
+        'scenario.active': 'Du svarer ut fra dette',
+        'scenario.select': 'Svar ut fra dette',
 
         'scenarios': [
           {
+            name:  'Hverdagsliv',
             quote: 'Ditt generelle liv de siste to ukene.',
             intro: 'Hvor godt stemmer hvert utsagn for deg nå?',
             help:  'For hver driver: vurder utsagnet om deg selv, og utsagnet om lokalsamfunnet ditt.'
           },
           {
+            name:  'Brustenging',
             quote: 'Nordsundbrua blir plutselig stengt på grunn av sterk vind en tirsdags formiddag, og forblir stengt i 24 timer.',
             intro: 'Når dette skjer — hvor godt stemmer hvert utsagn for deg?',
             help:  'For hver driver: vurder utsagnet om deg selv, og utsagnet om lokalsamfunnet ditt, sett i lys av dette scenarioet.'
@@ -2178,22 +2219,34 @@
       });
     }
 
-    function applyScenarioText(idx, animate = true) {
+    function renderScenarioCards() {
+      const scenarios = t('scenarios');
+      const host = document.querySelector('#scenario-cards');
+      const numLbl = (i) => String(i + 1).padStart(2, '0');
+      host.innerHTML = scenarios.map((s, idx) => {
+        const isActive = idx === activeScenario;
+        const stateLabel = isActive ? t('scenario.active') : t('scenario.select');
+        return `
+          <button type="button"
+                  class="scenario-card${isActive ? ' is-active' : ''}"
+                  role="radio"
+                  aria-checked="${isActive ? 'true' : 'false'}"
+                  data-scenario="${idx}"
+                  aria-label="${t('scenario.card_a11y')(s.name)}">
+            <div class="scenario-card-head">
+              <span>${t('scenario.card_num')(numLbl(idx))}</span>
+              <span class="scenario-card-state"><span class="dot" aria-hidden="true"></span>${stateLabel}</span>
+            </div>
+            <h3 class="scenario-card-title">${s.name}</h3>
+            <blockquote class="scenario-card-quote"><p>${s.quote}</p></blockquote>
+          </button>`;
+      }).join('');
+    }
+
+    function applyScenarioText(idx) {
       const s = t('scenarios')[idx];
-      const scenarioQuote = document.querySelector('#scenario-quote');
-      const surveyQuestion = document.querySelector('#survey-question');
-      const surveyHelp = document.querySelector('#survey-help');
-      const write = () => {
-        scenarioQuote.querySelector('p').textContent = s.quote;
-        surveyQuestion.textContent = s.intro;
-        surveyHelp.textContent = s.help;
-      };
-      if (!animate) { write(); return; }
-      scenarioQuote.classList.add('is-swapping');
-      window.setTimeout(() => {
-        write();
-        scenarioQuote.classList.remove('is-swapping');
-      }, 200);
+      document.querySelector('#survey-question').textContent = s.intro;
+      document.querySelector('#survey-help').textContent     = s.help;
     }
 
     /* ---- Apply localized text to static HTML nodes ---- */
@@ -2240,25 +2293,24 @@
       }
     });
 
-    // Seed scenario 0 with default values, and set scenario 0's quote/intro.
+    // Seed scenario 0 with default values, render cards, and set the survey-intro text.
     captureAnswers(0);
-    applyScenarioText(0, false);
+    renderScenarioCards();
+    applyScenarioText(0);
 
-    document.querySelectorAll('.scenario-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        const next = Number(tab.dataset.scenario);
-        if (next === activeScenario) return;
-        captureAnswers(activeScenario);
-        activeScenario = next;
-        document.querySelectorAll('.scenario-tab').forEach(t => {
-          const isActive = Number(t.dataset.scenario) === next;
-          t.classList.toggle('is-active', isActive);
-          t.setAttribute('aria-selected', isActive ? 'true' : 'false');
-        });
-        applyScenarioText(next);
-        restoreAnswers(next);
-        refreshMarkers();
-      });
+    /* Delegated click handler — the cards re-render on language switch, so we
+       bind once to the picker container rather than to individual cards. */
+    document.querySelector('#scenario-cards').addEventListener('click', (e) => {
+      const card = e.target.closest('.scenario-card');
+      if (!card) return;
+      const next = Number(card.dataset.scenario);
+      if (next === activeScenario) return;
+      captureAnswers(activeScenario);
+      activeScenario = next;
+      renderScenarioCards();
+      applyScenarioText(next);
+      restoreAnswers(next);
+      refreshMarkers();
     });
 
     /* ---- Comparison reveal toggle ---- */
@@ -2295,10 +2347,11 @@
       renderTopics();
       bindSliders();
       renderComparison();
+      renderScenarioCards();
       if (window.lucide) lucide.createIcons();
       restoreAnswers(activeScenario);
       refreshMarkers();
-      applyScenarioText(activeScenario, false);
+      applyScenarioText(activeScenario);
       // Reveal button is one of the few static buttons that needs special handling
       // because its label depends on aria-expanded state, not just on data-i18n.
       const expanded = revealBtn.getAttribute('aria-expanded') === 'true';
