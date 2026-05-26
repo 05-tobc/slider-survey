@@ -855,9 +855,16 @@
 
     .slider-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 52px;
-      align-items: center;
-      gap: 18px;
+      grid-template-columns: minmax(0, 1fr) 60px;
+      align-items: start;
+      gap: 20px;
+    }
+
+    /* Pin the icon's vertical centre to the slider track. The track sits at
+       (thumb-size / 2) from the top of .slider-main; the icon is 60px tall,
+       so it needs to shift down by (thumb-size / 2 - 30px) to line up. */
+    .slider-layout > .value-icon {
+      margin-top: calc(var(--thumb-size) / 2 - 30px);
     }
 
     .slider-main {
@@ -865,38 +872,32 @@
       min-width: 0;
     }
 
-    /* Bubble that tracks the thumb. Positioned via --pct (0..1).
-       Formula matches browser thumb-center math:
-         left = pct * (track_width - thumb) + thumb/2 */
-    .value-bubble {
+    /* Diverging track fill: a 2px bar that grows from the centre of the track
+       toward the thumb. Sits on top of the native track in the same coordinate
+       space. --fill-left / --fill-width are set from JS so the geometry matches
+       the thumb-center formula exactly. */
+    .track-fill {
       position: absolute;
-      bottom: calc(100% - 2px);
-      left: calc(var(--pct, 0.5) * (100% - var(--thumb-size)) + var(--thumb-size) / 2);
-      transform: translateX(-50%);
-      min-width: 24px;
-      padding: 3px 7px;
-      border-radius: 2px;
-      background: var(--ink);
-      color: var(--paper);
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 500;
-      line-height: 1;
-      letter-spacing: 0.02em;
-      text-align: center;
+      top: calc(var(--thumb-size) / 2 - 1px);
+      left: var(--fill-left, 50%);
+      width: var(--fill-width, 0px);
+      height: 2px;
       pointer-events: none;
-      white-space: nowrap;
+      background: var(--fill-color, transparent);
+      transition: background-color 0.22s ease, left 0.14s ease, width 0.14s ease;
+      z-index: 0;
     }
 
-    .value-bubble::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 100%;
-      transform: translateX(-50%);
-      border: 4px solid transparent;
-      border-top-color: var(--ink);
-    }
+    /* The native range needs to stack above the fill so its thumb stays
+       interactive. The track is transparent so the fill shows through. */
+    input[type="range"] { position: relative; z-index: 1; }
+
+    /* Per-value fill colour, shared with the comparison legend. */
+    .slider-cell.is-v--2 { --fill-color: #8a3a14; }
+    .slider-cell.is-v--1 { --fill-color: #c97a48; }
+    .slider-cell.is-v-0  { --fill-color: transparent; }
+    .slider-cell.is-v-1  { --fill-color: #94a576; }
+    .slider-cell.is-v-2  { --fill-color: #5a6f40; }
 
     /* Native range input, styled */
     input[type="range"] {
@@ -998,6 +999,7 @@
     .labels {
       display: flex;
       justify-content: space-between;
+      gap: 12px;
       color: var(--muted);
       font-size: 10.5px;
       font-family: var(--mono);
@@ -1008,32 +1010,50 @@
       margin-top: 10px;
     }
 
-    .labels span:nth-child(2) {
-      color: var(--muted-2);
+    .labels span:last-child {
+      text-align: right;
     }
 
-    .mood {
-      width: 48px;
-      height: 48px;
+    .value-icon {
+      width: 60px;
+      height: 60px;
       display: grid;
       place-items: center;
-      border: 1px solid currentColor;
+      border: 1.5px solid currentColor;
       border-radius: 50%;
       background: var(--paper);
-      box-shadow: none;
-      transition: color .25s ease, background-color .25s ease;
+      position: relative;
+      transition: color .25s ease, border-width .25s ease, transform .25s ease;
     }
 
-    .mood.is-very-negative { color: #9a3324; }
-    .mood.is-negative      { color: #b8501f; }
-    .mood.is-neutral       { color: #8b8f99; }
-    .mood.is-positive      { color: #6a7f4b; }
-    .mood.is-very-positive { color: #3f6b2f; }
+    /* Filled disc behind the icon. Density grows with magnitude so the scale
+       stays legible in greyscale and for colour-blind users. */
+    .value-icon::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: var(--fill, 0.08);
+      transition: opacity .25s ease;
+    }
 
-    .mood svg {
-      width: 26px;
-      height: 26px;
-      stroke-width: 1.7;
+    .value-icon.is-v--2 { color: #8a3a14; --fill: 0.32; border-width: 2px; }
+    .value-icon.is-v--1 { color: #c97a48; --fill: 0.22; }
+    .value-icon.is-v-0  { color: #8b8f99; --fill: 0.08; }
+    .value-icon.is-v-1  { color: #94a576; --fill: 0.22; }
+    .value-icon.is-v-2  { color: #5a6f40; --fill: 0.32; border-width: 2px; }
+
+    /* A subtle scale-up at the extremes reinforces magnitude. */
+    .value-icon.is-v--2,
+    .value-icon.is-v-2 { transform: scale(1.06); }
+
+    .value-icon svg {
+      width: 30px;
+      height: 30px;
+      stroke-width: 1.8;
+      position: relative;
+      z-index: 1;
     }
 
     .footer {
@@ -1639,13 +1659,13 @@
         'scenarios': [
           {
             quote: 'Your general life over the past two weeks.',
-            intro: 'How do you generally feel about each of the following?',
-            help:  'For each topic, rate how it affects you personally, and how you think it affects others in your community.'
+            intro: 'How true is each statement for you right now?',
+            help:  'For each driver, rate the statement about yourself, and the statement about your community.'
           },
           {
             quote: 'The Nordsund bridge suddenly closes due to strong winds on a Tuesday morning, and stays closed for 24 hours.',
-            intro: 'Given this scenario, how do you perceive yourself on the following?',
-            help:  'For each topic, rate how the situation affects you personally, and how you think it affects others in your community.'
+            intro: 'After this happens, how true is each statement for you?',
+            help:  'For each driver, rate the statement about yourself, and the statement about your community, in the context of this scenario.'
           }
         ],
 
@@ -1661,7 +1681,6 @@
         'rating.0':  'Indifferent',
         'rating.1':  'Positive',
         'rating.2':  'Very positive',
-        'slider.labels': ['Very negative', 'Indifferent', 'Very positive'],
         'slider.aria_value': (label, value) => `${label} (${value})`,
         'slider.live_state': (value, label) => `Current value: ${value}, ${label}`,
 
@@ -1683,74 +1702,86 @@
           {
             name: 'Trust',
             desc: 'Trust that institutions and community members act reliably and in the common interest.',
-            own:  'How much I trust institutions and people around me to act in my and the community’s interest.',
-            others: 'How much the community trusts institutions and each other.'
+            own:  'I trust the people and institutions around me to act in my and the community’s interest.',
+            others: 'People here generally trust each other and our institutions.',
+            scale: ['Don’t trust at all', 'Fully trust']
           },
           {
             name: 'Security',
             desc: 'A sense of physical, psychological, and economic safety, free from threats or violence.',
-            own:  'How safe I feel physically, financially, and psychologically in daily life.',
-            others: 'How free the community is from crime, hazards, and economic shocks — and how well protective systems work.'
+            own:  'I feel safe in my daily life — physically, financially, and psychologically.',
+            others: 'This community is a safe place to live, with protections that work when needed.',
+            scale: ['Unsafe', 'Safe']
           },
           {
             name: 'Self-esteem',
             desc: 'Feeling valued, confident, and capable as an individual.',
-            own:  'My sense of worth, confidence, dignity, and ability to influence my own life.',
-            others: 'How much community norms, narratives, and institutions affirm the dignity of all members.'
+            own:  'I feel valued, capable, and able to shape my own life.',
+            others: 'This community affirms the dignity and worth of everyone who lives here.',
+            scale: ['Not at all', 'Strongly']
           },
           {
             name: 'Social support',
             desc: 'Access to practical and emotional help from family, friends, and the community.',
-            own:  'Whether I can count on family, friends, neighbors, and colleagues for help and support when needed.',
-            others: 'Strength and accessibility of support networks and services (e.g. community centers, volunteering, mutual aid).'
+            own:  'I can count on family, friends, or neighbours when I need help.',
+            others: 'People here look out for one another and help when it’s needed.',
+            scale: ['Can’t count on anyone', 'Strong support']
           },
           {
             name: 'Empathy',
             desc: 'Experiencing and showing understanding, care, and compassion within the community.',
-            own:  'How much I feel understood, respected, and cared for — and how I practice empathy toward others.',
-            others: 'The prevailing culture of compassion and perspective-taking in public life and everyday interactions.'
+            own:  'I feel understood and cared for by the people around me.',
+            others: 'People here treat each other with understanding and compassion.',
+            scale: ['Rarely', 'Almost always']
           },
           {
             name: 'Physical needs',
             desc: 'Reliable access to essentials such as clean air, food, water, shelter, clothing, and rest.',
-            own:  'Whether my basic needs — clean air, food, water, shelter, clothing, and rest — are reliably met.',
-            others: 'Infrastructure, policies, and services that ensure universal access to essentials.'
+            own:  'My basic needs — clean air, food, water, shelter, rest — are reliably met.',
+            others: 'Everyone in this community has reliable access to basic essentials.',
+            scale: ['Poorly met', 'Reliably met']
           },
           {
             name: 'Physical health',
             desc: 'Energy, mobility, and the physical ability to function well in daily life.',
-            own:  'My physical functioning, fitness, and ability to perform daily activities free from disease or pain.',
-            others: 'Population health and health-promoting environments (safe streets, active transport, green spaces, access to care).'
+            own:  'My body lets me do the things I need and want to do in daily life.',
+            others: 'This is a place where it’s easy to stay physically healthy.',
+            scale: ['Poor', 'Excellent']
           },
           {
             name: 'Mental health',
             desc: 'Emotional balance, resilience, and cognitive functioning such as focus and stress management.',
-            own:  'My emotional well-being, resilience, stress levels, and cognitive functioning.',
-            others: 'Prevalence of psychological well-being and access to mental health support across the community.'
+            own:  'I feel emotionally balanced and able to handle the stress of daily life.',
+            others: 'Mental well-being is common here, and support is available when needed.',
+            scale: ['Poor', 'Excellent']
           },
           {
             name: 'Meaning and coherence',
             desc: 'A sense of purpose, direction, and understanding of one’s life context.',
-            own:  'My clarity of purpose, sense that life is meaningful, and that my experiences fit together coherently.',
-            others: 'Shared narratives, cultural life, and institutions that make the city feel like it "makes sense".'
+            own:  'My life feels meaningful and the pieces of it fit together.',
+            others: 'Life in this city feels coherent — it has direction and makes sense.',
+            scale: ['Not at all', 'Strongly']
           },
           {
             name: 'Participation and inclusion',
             desc: 'Being able to take part in public life and feeling included in community spaces and processes.',
-            own:  'My ability to be heard, take part in decisions, and access public spaces and services without barriers.',
-            others: 'Openness and fairness of civic processes, and diversity of representation in decision-making.'
+            own:  'I can take part in decisions and public life here without barriers.',
+            others: 'This community gives everyone a fair chance to be heard and take part.',
+            scale: ['Not at all', 'Fully']
           },
           {
             name: 'Justice and non-discrimination',
             desc: 'Fair treatment and equal opportunities, free from bias or exclusion.',
-            own:  'Whether I am treated fairly regardless of identity or status and have equal access to rights and opportunities.',
-            others: 'How fairly rules are applied across the community, and the level of disparities and anti-discrimination norms in institutions.'
+            own:  'I am treated fairly here, regardless of who I am.',
+            others: 'People here are treated fairly, regardless of background or identity.',
+            scale: ['Rarely', 'Almost always']
           },
           {
             name: 'Belonging and identity',
             desc: 'Feeling connected to others with shared values, and identifying with the community.',
-            own:  'Feeling accepted, seen, and connected to place, culture, and communities; pride in who I am.',
-            others: 'Strength of social cohesion and inclusive identities that bridge differences across groups and neighborhoods.'
+            own:  'I feel I belong here and am accepted for who I am.',
+            others: 'This is a community where different people feel they belong together.',
+            scale: ['Not at all', 'Strongly']
           }
         ]
       },
@@ -1782,13 +1813,13 @@
         'scenarios': [
           {
             quote: 'Ditt generelle liv de siste to ukene.',
-            intro: 'Hvordan oppfatter du deg selv på disse områdene?',
-            help:  'For hvert tema: vurder hvordan det påvirker deg personlig, og hvordan du tror det påvirker andre i lokalsamfunnet ditt.'
+            intro: 'Hvor godt stemmer hvert utsagn for deg nå?',
+            help:  'For hver driver: vurder utsagnet om deg selv, og utsagnet om lokalsamfunnet ditt.'
           },
           {
             quote: 'Nordsundbrua blir plutselig stengt på grunn av sterk vind en tirsdags formiddag, og forblir stengt i 24 timer.',
-            intro: 'Med utgangspunkt i dette scenarioet — hvordan oppfatter du deg selv på disse områdene?',
-            help:  'For hvert tema: vurder hvordan situasjonen påvirker deg personlig, og hvordan du tror den påvirker andre i lokalsamfunnet ditt.'
+            intro: 'Når dette skjer — hvor godt stemmer hvert utsagn for deg?',
+            help:  'For hver driver: vurder utsagnet om deg selv, og utsagnet om lokalsamfunnet ditt, sett i lys av dette scenarioet.'
           }
         ],
 
@@ -1804,7 +1835,6 @@
         'rating.0':  'Verken eller',
         'rating.1':  'Positivt',
         'rating.2':  'Svært positivt',
-        'slider.labels': ['Svært negativt', 'Verken eller', 'Svært positivt'],
         'slider.aria_value': (label, value) => `${label} (${value})`,
         'slider.live_state': (value, label) => `Nåværende verdi: ${value}, ${label}`,
 
@@ -1826,74 +1856,86 @@
           {
             name: 'Tillit',
             desc: 'Tillit til at institusjoner og mennesker rundt deg handler pålitelig og i fellesskapets interesse.',
-            own:  'Hvor mye jeg stoler på at institusjoner og folk rundt meg handler i min og lokalsamfunnets interesse.',
-            others: 'Hvor mye lokalsamfunnet har tillit til institusjonene og til hverandre.'
+            own:  'Jeg stoler på at folk og institusjoner rundt meg handler i min og lokalsamfunnets interesse.',
+            others: 'Folk her har generelt tillit til hverandre og til institusjonene våre.',
+            scale: ['Stoler ikke i det hele tatt', 'Stoler fullt og helt']
           },
           {
             name: 'Trygghet',
             desc: 'En følelse av fysisk, psykisk og økonomisk trygghet, fri fra trusler og vold.',
-            own:  'Hvor trygg jeg føler meg fysisk, økonomisk og psykisk i hverdagen.',
-            others: 'I hvilken grad lokalsamfunnet er fritt for kriminalitet, farer og økonomiske sjokk — og hvor godt sikkerhetsnettet fungerer.'
+            own:  'Jeg føler meg trygg i hverdagen — fysisk, økonomisk og psykisk.',
+            others: 'Dette er et trygt sted å bo, med beskyttelse som virker når det trengs.',
+            scale: ['Utrygt', 'Trygt']
           },
           {
             name: 'Selvfølelse',
             desc: 'Å føle seg verdsatt, trygg på seg selv og kapabel som menneske.',
-            own:  'Min følelse av egenverd, selvtillit, verdighet og evne til å påvirke mitt eget liv.',
-            others: 'I hvilken grad normer, fortellinger og institusjoner i samfunnet anerkjenner verdigheten til alle.'
+            own:  'Jeg føler meg verdsatt, kapabel og i stand til å forme mitt eget liv.',
+            others: 'Dette lokalsamfunnet anerkjenner verdigheten til alle som bor her.',
+            scale: ['Ikke i det hele tatt', 'I høy grad']
           },
           {
             name: 'Sosial støtte',
             desc: 'Tilgang til praktisk og emosjonell hjelp fra familie, venner og lokalsamfunnet.',
-            own:  'Om jeg kan regne med familie, venner, naboer og kolleger når jeg trenger hjelp og støtte.',
-            others: 'Styrken og tilgjengeligheten av støttenettverk og tjenester (f.eks. nærmiljøsentre, frivillighet, gjensidig hjelp).'
+            own:  'Jeg kan regne med familie, venner eller naboer når jeg trenger hjelp.',
+            others: 'Folk her ser etter hverandre og stiller opp når det trengs.',
+            scale: ['Kan ikke regne med noen', 'Sterk støtte']
           },
           {
             name: 'Empati',
             desc: 'Å oppleve og vise forståelse, omsorg og medfølelse i fellesskapet.',
-            own:  'Hvor godt jeg føler meg forstått, respektert og ivaretatt — og hvordan jeg selv viser empati overfor andre.',
-            others: 'Den rådende kulturen for medfølelse og perspektivtaking i samfunnslivet og i hverdagslige møter.'
+            own:  'Jeg føler meg forstått og ivaretatt av folkene rundt meg.',
+            others: 'Folk her møter hverandre med forståelse og medfølelse.',
+            scale: ['Sjelden', 'Nesten alltid']
           },
           {
             name: 'Grunnleggende behov',
             desc: 'Pålitelig tilgang til det nødvendigste: ren luft, mat, vann, bolig, klær og hvile.',
-            own:  'Om de grunnleggende behovene mine — ren luft, mat, vann, bolig, klær og hvile — er pålitelig dekket.',
-            others: 'Infrastruktur, regelverk og tjenester som sikrer alle tilgang til det nødvendigste.'
+            own:  'Mine grunnleggende behov — ren luft, mat, vann, bolig, hvile — er pålitelig dekket.',
+            others: 'Alle i dette lokalsamfunnet har pålitelig tilgang til det nødvendigste.',
+            scale: ['Dårlig dekket', 'Pålitelig dekket']
           },
           {
             name: 'Fysisk helse',
             desc: 'Energi, bevegelighet og fysisk evne til å fungere godt i hverdagen.',
-            own:  'Min fysiske form, funksjon og evne til å utføre dagligdagse gjøremål uten sykdom eller smerter.',
-            others: 'Folkehelsen og helsefremmende omgivelser (trygge gater, aktiv transport, grøntområder, tilgang til helsetjenester).'
+            own:  'Kroppen min lar meg gjøre det jeg trenger og vil gjøre i hverdagen.',
+            others: 'Dette er et sted hvor det er lett å holde seg fysisk frisk.',
+            scale: ['Dårlig', 'Utmerket']
           },
           {
             name: 'Psykisk helse',
             desc: 'Følelsesmessig balanse, motstandskraft og kognitiv fungering som konsentrasjon og stresshåndtering.',
-            own:  'Mitt følelsesmessige velvære, motstandskraft, stressnivå og kognitiv fungering.',
-            others: 'Utbredelsen av psykisk velvære og tilgangen til hjelp ved psykiske plager i samfunnet.'
+            own:  'Jeg føler meg følelsesmessig i balanse og i stand til å håndtere stress i hverdagen.',
+            others: 'Psykisk velvære er vanlig her, og hjelp er tilgjengelig når det trengs.',
+            scale: ['Dårlig', 'Utmerket']
           },
           {
             name: 'Mening og sammenheng',
             desc: 'En følelse av mening, retning og forståelse av sin egen livssituasjon.',
-            own:  'Klarhet i hva jeg vil, opplevelsen av at livet er meningsfullt, og at erfaringene mine henger sammen.',
-            others: 'Felles fortellinger, kulturliv og institusjoner som gir byen retning og en følelse av at det "gir mening".'
+            own:  'Livet mitt føles meningsfullt, og bitene henger sammen.',
+            others: 'Livet i denne byen henger sammen — det har retning og gir mening.',
+            scale: ['Ikke i det hele tatt', 'I høy grad']
           },
           {
             name: 'Deltakelse og inkludering',
             desc: 'Å kunne ta del i samfunnslivet og føle seg inkludert i fellesskapets rom og prosesser.',
-            own:  'Min mulighet til å bli hørt, delta i beslutninger og bruke offentlige rom og tjenester uten hindringer.',
-            others: 'Åpenheten og rettferdigheten i demokratiske prosesser, og mangfold i representasjon og beslutningstaking.'
+            own:  'Jeg kan delta i beslutninger og samfunnsliv her uten hindringer.',
+            others: 'Dette lokalsamfunnet gir alle en rettferdig sjanse til å bli hørt og delta.',
+            scale: ['Ikke i det hele tatt', 'Fullt ut']
           },
           {
             name: 'Rettferdighet og ikke-diskriminering',
             desc: 'Rettferdig behandling og like muligheter, uten fordommer eller utestenging.',
-            own:  'Om jeg blir behandlet rettferdig uavhengig av hvem jeg er, og har lik tilgang til rettigheter og muligheter.',
-            others: 'Hvor rettferdig reglene anvendes i samfunnet, og hvor små forskjellene er — pluss styrken på normer mot diskriminering i institusjoner.'
+            own:  'Jeg blir behandlet rettferdig her, uavhengig av hvem jeg er.',
+            others: 'Folk her blir behandlet rettferdig, uavhengig av bakgrunn eller identitet.',
+            scale: ['Sjelden', 'Nesten alltid']
           },
           {
             name: 'Tilhørighet og identitet',
             desc: 'Å føle seg knyttet til andre med felles verdier, og å identifisere seg med fellesskapet.',
-            own:  'Å føle meg akseptert, sett og knyttet til sted, kultur og fellesskap; stolthet over hvem jeg er.',
-            others: 'Styrken på sosialt samhold og inkluderende identiteter som bygger broer mellom grupper og nabolag.'
+            own:  'Jeg føler at jeg hører til her og blir akseptert for den jeg er.',
+            others: 'Dette er et lokalsamfunn der ulike mennesker føler at de hører sammen.',
+            scale: ['Ikke i det hele tatt', 'I høy grad']
           }
         ]
       }
@@ -1915,12 +1957,14 @@
       { icon: 'circle-user-round', color: 'c-violet' }
     ];
 
-    const moodMeta = {
-      '-2': { moodClass: 'is-very-negative', icon: 'angry' },
-      '-1': { moodClass: 'is-negative',      icon: 'frown' },
-       '0': { moodClass: 'is-neutral',       icon: 'meh'   },
-       '1': { moodClass: 'is-positive',      icon: 'smile' },
-       '2': { moodClass: 'is-very-positive', icon: 'laugh' }
+    /* Value → diverging-color class. Same scale used by the comparison bars,
+       so a given rating reads the same colour across the page. */
+    const valueMeta = {
+      '-2': 'is-v--2',
+      '-1': 'is-v--1',
+       '0': 'is-v-0',
+       '1': 'is-v-1',
+       '2': 'is-v-2'
     };
 
     const scopeSvg = {
@@ -1954,22 +1998,22 @@
         </div>`;
     }
 
-    function slider(name, id) {
-      const labels = t('slider.labels');
+    function slider(name, id, icon, scale) {
+      const [low, high] = scale;
       return `
-        <div class="slider-cell" data-title="${name}" style="--pct: 0.5">
+        <div class="slider-cell is-v-0" data-title="${name}" data-icon="${icon}" style="--pct: 0.5">
           <label class="sr-only" for="${id}">${name}</label>
           <div class="slider-layout">
             <div class="slider-main">
-              <div class="value-bubble" aria-hidden="true">0</div>
+              <div class="track-fill" aria-hidden="true"></div>
               <input id="${id}" type="range" min="-2" max="2" step="1" value="0" list="${id}-marks" aria-describedby="${id}-state">
               <div class="ticks" aria-hidden="true">
                 ${[-2, -1, 0, 1, 2].map((v, i) => `<div class="tick" style="--pct: ${i / 4}">${v}</div>`).join('')}
               </div>
-              <div class="labels"><span>${labels[0]}</span><span>${labels[1]}</span><span>${labels[2]}</span></div>
+              <div class="labels"><span>${low}</span><span>${high}</span></div>
             </div>
-            <div class="mood is-neutral" aria-hidden="true">
-              <i data-lucide="meh"></i>
+            <div class="value-icon is-v-0" aria-hidden="true">
+              <i data-lucide="${icon}"></i>
             </div>
           </div>
           <div class="sr-only" id="${id}-state" aria-live="polite">${t('slider.live_state')('0', t('rating.0'))}</div>
@@ -1993,8 +2037,8 @@
             <div class="topic-sliders">
               ${scopeLabel('own', topic.own)}
               ${scopeLabel('others', topic.others)}
-              ${slider(t('scope.own.aria')(topic.name),    `own-${index + 1}`)}
-              ${slider(t('scope.others.aria')(topic.name), `others-${index + 1}`)}
+              ${slider(t('scope.own.aria')(topic.name),    `own-${index + 1}`,    meta.icon, topic.scale)}
+              ${slider(t('scope.others.aria')(topic.name), `others-${index + 1}`, meta.icon, topic.scale)}
             </div>
           </section>`;
       }).join('');
@@ -2002,20 +2046,38 @@
 
     function bindSliders() {
       document.querySelectorAll('.slider-cell').forEach(cell => {
-        const input  = cell.querySelector('input');
-        const bubble = cell.querySelector('.value-bubble');
-        const mood   = cell.querySelector('.mood');
-        const state  = cell.querySelector('[aria-live]');
+        const input    = cell.querySelector('input');
+        const valueIcn = cell.querySelector('.value-icon');
+        const icon     = cell.dataset.icon;
+        const state    = cell.querySelector('[aria-live]');
         const update = () => {
           const v = Number(input.value);
           const pct = (v + 2) / 4;
-          const m = moodMeta[input.value];
           const ratingLabel = t(`rating.${input.value}`);
+          const valueClass = valueMeta[input.value];
+
           cell.style.setProperty('--pct', pct);
-          bubble.textContent = input.value;
-          mood.innerHTML = `<i data-lucide="${m.icon}"></i>`;
-          if (window.lucide) lucide.createIcons();
-          mood.className = `mood ${m.moodClass}`;
+          /* Track fill: geometry mirrors the thumb-center formula so its edge
+             meets the thumb. Centre is at pct=0.5; we paint from centre toward
+             the thumb in either direction. Expressed via calc() so it stays
+             accurate at any container width. */
+          const thumbX = `calc(${pct} * (100% - var(--thumb-size)) + var(--thumb-size) / 2)`;
+          if (pct < 0.5) {
+            cell.style.setProperty('--fill-left', thumbX);
+            cell.style.setProperty('--fill-width', `calc(50% - (${thumbX}))`);
+          } else {
+            cell.style.setProperty('--fill-left', '50%');
+            cell.style.setProperty('--fill-width', `calc((${thumbX}) - 50%)`);
+          }
+
+          /* Keep the cell's value class in sync so --fill-color and the icon's
+             tint update together. Strip any prior is-v-* and re-apply, so we
+             don't accidentally clobber other classes the cell may carry. */
+          cell.classList.remove('is-v--2', 'is-v--1', 'is-v-0', 'is-v-1', 'is-v-2');
+          cell.classList.add(valueClass);
+          valueIcn.className = `value-icon ${valueClass}`;
+          /* lucide swaps <i data-lucide> with an <svg> on first render, so the
+             icon doesn't need re-creating on every input change. */
           input.setAttribute('aria-valuetext', t('slider.aria_value')(ratingLabel, input.value));
           state.textContent = t('slider.live_state')(input.value, ratingLabel);
         };
